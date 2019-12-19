@@ -1,71 +1,135 @@
 <template>
-  <div id="login">
-    <HelloWorld></HelloWorld>
-    <img id="logo"
-         src="../src/assets/logo.png">
-    <div id="message">{{message}}</div>
-    <div id="loginForm">
-      <h1>智能监控系统</h1>
-      <div class="username-div">
-        <label class="iconfont icon-xingmingyonghumingnicheng"
-               for="username-input"></label>
-        <input type="text"
-               id="username-input"
-               v-model="username"
-               placeholder="用户名">
-      </div>
-      <div class="password-div">
-        <label class="iconfont icon-mima"
-               for="password-input"></label>
-        <input type="password"
-               id="password-input"
-               v-model="password"
-               placeholder="密码">
-        <a v-bind:class="{'iconfont icon-yanjing':isPassword,'iconfont icon-yanjing1':!isPassword}"
-           @click="showPassword"></a>
-      </div>
-      <div class="loginbtn">
-        <input type="button"
-               value="登录"
-               @click="login">
-      </div>
-      <a href="#">忘记密码</a>
-    </div>
+  <div id='app'>
+    <Header></Header>
+    <ul class="asideMenu">
+      <li v-for="(item,index) in menuList"
+          v-bind:key="item.id">
+        <div class="oneMenu"
+             @click="showToggle(item,index)">
+          <span>{{item.name}}</span>
+        </div>
+        <ul v-show="item.isSubShow">
+          <li v-for="(subItem,index) in item.subItems"
+              v-bind:key="subItem.id">
+            <div class="oneMenuChild"
+                 @click="componentName = 'component'+index">{{subItem.name}}</div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <component v-bind:is="componentName"></component>
   </div>
 </template>
 
 <script scoped>
-import HelloWorld from "./components/HelloWorld"
+import Header from './components/Header'
+import component1 from './components/Header copy'
+import component2 from './components/Header copy 2'
+
 export default {
-  name: 'login',
+  name: 'app',
   components: {
-    HelloWorld
+    Header, component1, component2
   },
   data () {
     return {
-      username: '',
-      password: '',
-      message: '',
-      isPassword: true
+      componentName: 'component1',
+      menuList: [
+        {
+          name: '字符录入',
+          isSubShow: false,
+          subItems: [
+            {
+              name: '字符录入'
+            },
+            {
+              name: '白话文录入'
+            },
+            {
+              name: '文言文录入'
+            },
+            {
+              name: '小写数字录入'
+            }
+          ]
+        },
+        {
+          name: '票据数据录入',
+          isSubShow: false,
+          subItems: [
+            {
+              name: '票据录入'
+            },
+            {
+              name: '翻打传票'
+            },
+          ]
+        },
+        {
+          name: '交易码录入',
+          isSubShow: false,
+          subItems: [
+            {
+              name: '交易码录入'
+            },
+            {
+              name: '交易名称录入'
+            },
+          ]
+        },
+        {
+          name: '操作码录入',
+          isSubShow: false,
+          subItems: [
+            {
+              name: '操作码录入'
+            },
+            {
+              name: '操作名称录入'
+            },
+          ]
+        },
+        {
+          name: '票据学习',
+          isSubShow: false,
+          subItems: [
+
+          ]
+        },
+        {
+          name: '内部凭证学习',
+          isSubShow: false,
+          subItems: [
+
+          ]
+        },
+        {
+          name: '现金管理学习',
+          isSubShow: false,
+          subItems: [
+
+          ]
+        },
+      ]
     }
   },
   methods: {
-    login: function () {
-      if (this.username == '') {
-        this.message = '用户名不能为空！';
-      }
-      else if (this.password == '') {
-        this.message = '密码不能为空';
-      }
-      else this.message = '';
-      if (this.message !== '')
-        document.getElementById("message").style.display = "block";
+    showToggle: function (item, ind) {
+      this.menuList.forEach(i => {
+        // 判断如果数据中的menuList[i]的show属性不等于当前数据的isSubShow属性那么menuList[i]等于false
+        if (i.isSubShow !== this.menuList[ind].isSubShow) {
+          i.isSubShow = false;
+        }
+      });
+      item.isSubShow = !item.isSubShow;
+      console.log(item.name)
     },
-    showPassword: function () {
-      this.isPassword = !this.isPassword;
-      document.getElementById('password-input').type = (this.isPassword ? "password" : "text");
+    created () {
     }
+  },
+  mounted () {
   }
+
 }
 </script>
 
@@ -75,88 +139,21 @@ export default {
   margin: 0;
   padding: 0;
 }
-#logo {
-  display: block;
-  margin: 0px auto;
-}
-#login {
-  background: url("assets/123.jpg") center;
-  width: 100%;
+.asideMenu {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 150px;
   height: 100%;
+  text-align: center;
+  cursor: pointer;
+  color: #ffffff;
   position: fixed;
+  top: 35px;
 }
-#loginForm {
-  border-radius: 5px;
-  background-color: black;
-  height: 280px;
-  width: 400px;
-  margin: 0px auto;
-  box-shadow: 0 0 5px black;
-  padding-top: 20px;
-  opacity: 0.5;
+.oneMenu {
+  margin-top: 10px;
+  border: 1px solid #000000;
 }
-#loginForm > h1 {
-  color: #ffffff;
-  font-size: 20px;
-  text-align: center;
-}
-#loginForm > div {
-  width: 350px;
-  height: 30px;
-  margin: 30px auto;
-  position: relative;
-}
-#loginForm > div > input {
-  background-color: black;
-  outline: none;
-  color: #ffffff;
-  width: 318px;
-  height: 30px;
-  float: left;
-  border: 1px solid #ffffff;
-  border-left: 0;
-}
-#loginForm > div > input[type="button"] {
-  border-left: 1px solid #ffffff;
-  width: 348px;
-}
-#loginForm > div > label {
-  color: #ffffff;
-  display: block;
-  text-align: center;
-  line-height: 30px;
-  width: 30px;
-  float: left;
-  border: 1px solid #ffffff;
-  border-right: 0;
-}
-#loginForm > div > a {
-  color: #ffffff;
-  position: absolute;
-  line-height: 30px;
-  right: 15px;
-}
-#loginForm > a {
-  color: #ffffff;
-  display: block;
-  width: 100%;
-  text-align: center;
-  text-decoration: none;
-}
-#message {
-  background-color: black;
-  position: fixed;
-  height: 50px;
-  font-size: 30px;
-  line-height: 50px;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 5px;
-  color: #ffffff;
-  box-shadow: 0 0 5px black;
-  opacity: 0.7;
-  text-shadow: 0 0 5px #ffffff;
-  display: none;
+.oneMenuChild {
+  margin-top: 5px;
 }
 </style>
