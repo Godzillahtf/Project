@@ -1,70 +1,62 @@
 <template>
   <div id="login">
-    <img id="logo"
-         src="../assets/logo.png">
+    <img id="logo" src="../assets/logo.png" />
     <div id="message">{{message}}</div>
     <div id="loginForm">
       <h1>智能监控系统</h1>
       <div class="username-div">
-        <label class="iconfont icon-xingmingyonghumingnicheng"
-               for="username-input"></label>
-        <input type="text"
-               id="username-input"
-               v-model="username"
-               placeholder="用户名">
+        <label class="iconfont icon-xingmingyonghumingnicheng" for="username-input"></label>
+        <input type="text" id="username-input" v-model="username" placeholder="用户名" />
       </div>
       <div class="password-div">
-        <label class="iconfont icon-mima"
-               for="password-input"></label>
-        <input type="password"
-               id="password-input"
-               v-model="password"
-               placeholder="密码">
-        <a v-bind:class="{'iconfont icon-yanjing':isPassword,'iconfont icon-yanjing1':!isPassword}"
-           @click="showPassword"></a>
+        <label class="iconfont icon-mima" for="password-input"></label>
+        <input type="password" id="password-input" v-model="password" placeholder="密码" />
+        <a
+          v-bind:class="{'iconfont icon-yanjing':isPassword,'iconfont icon-yanjing1':!isPassword}"
+          @click="showPassword"
+        ></a>
       </div>
       <div class="loginbtn">
-        <input type="button"
-               value="登录"
-               @click="login">
+        <input type="button" value="登录" @click="login" />
       </div>
 
-      <router-link to=""><a>忘记密码</a></router-link>
+      <router-link to="/index">
+        <a>忘记密码</a>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script scoped>
 export default {
-  name: 'login',
-  components: {
-  },
-  data () {
+  name: "login",
+  components: {},
+  data() {
     return {
-      username: '',
-      password: '',
-      message: '',
+      username: "",
+      password: "",
+      message: "",
       isPassword: true
-    }
+    };
   },
   methods: {
-    login: function () {
-      if (this.username == '') {
-        this.message = '用户名不能为空！';
-      }
-      else if (this.password == '') {
-        this.message = '密码不能为空';
-      }
-      else this.message = '';
-      if (this.message !== '')
+    login: function() {
+      if (this.username == "") {
+        this.message = "用户名不能为空！";
+      } else if (this.password == "") {
+        this.message = "密码不能为空";
+      } else this.message = "";
+      if (this.message !== "")
         document.getElementById("message").style.display = "block";
     },
-    showPassword: function () {
+    showPassword: function() {
       this.isPassword = !this.isPassword;
-      document.getElementById('password-input').type = (this.isPassword ? "password" : "text");
+      document.getElementById("password-input").type = this.isPassword
+        ? "password"
+        : "text";
     }
   }
-}
+};
 </script>
 
 <style>
