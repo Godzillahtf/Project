@@ -2,13 +2,17 @@
   <div id="index">
     <Header></Header>
     <ul class="asideMenu">
-      <li v-for="(item,index) in menuList" v-bind:key="item.id">
-        <div class="oneMenu" @click="showToggle(item,index)">
+      <li v-for="(item,index) in menuList"
+          v-bind:key="item.id">
+        <div class="oneMenu"
+             @click="showToggle(item,index)">
           <span>{{item.name}}</span>
         </div>
         <ul v-show="item.isSubShow">
-          <li v-for="(subItem,index) in item.subItems" v-bind:key="subItem.id">
-            <div class="oneMenuChild" @click="componentName = 'component'+index">{{subItem.name}}</div>
+          <li v-for="subItem in item.subItems"
+              v-bind:key="subItem.id">
+            <div class="oneMenuChild"
+                 @click="componentName = subItem.page">{{subItem.name}}</div>
           </li>
         </ul>
       </li>
@@ -17,96 +21,93 @@
   </div>
 </template>
 
-<script scoped>
+<script >
 import Header from "../components/Header";
-import component1 from "../components/Header copy";
-import component2 from "../components/Header copy 2";
+import LocalSite from "../components/LocalSite";
+import SystemSite from "../components/SystemSite";
+import SystemMaintain from "../components/SystemMaintain";
+import SafetyManagement from "../components/SafetyManagement";
+import UserManagement from "../components/UserManagement";
 
 export default {
   name: "index",
   components: {
     Header,
-    component1,
-    component2
+    LocalSite,
+    SystemSite,
+    SystemMaintain,
+    SafetyManagement,
+    UserManagement
   },
-  data() {
+  data () {
     return {
-      componentName: "component1",
+      componentName: "SystemMaintain",
       menuList: [
         {
-          name: "字符录入",
-          isSubShow: false,
-          subItems: [
-            {
-              name: "字符录入"
-            },
-            {
-              name: "白话文录入"
-            },
-            {
-              name: "文言文录入"
-            },
-            {
-              name: "小写数字录入"
-            }
-          ]
-        },
-        {
-          name: "票据数据录入",
-          isSubShow: false,
-          subItems: [
-            {
-              name: "票据录入"
-            },
-            {
-              name: "翻打传票"
-            }
-          ]
-        },
-        {
-          name: "交易码录入",
-          isSubShow: false,
-          subItems: [
-            {
-              name: "交易码录入"
-            },
-            {
-              name: "交易名称录入"
-            }
-          ]
-        },
-        {
-          name: "操作码录入",
-          isSubShow: false,
-          subItems: [
-            {
-              name: "操作码录入"
-            },
-            {
-              name: "操作名称录入"
-            }
-          ]
-        },
-        {
-          name: "票据学习",
+          name: "本地",
+          page: "LocalSite",
           isSubShow: false,
           subItems: []
         },
         {
-          name: "内部凭证学习",
+          name: "系统",
           isSubShow: false,
+          subItems: [
+            {
+              name: "系统设置",
+              page: "SystemSite"
+            },
+            {
+              name: "系统维护",
+              page: "SystemMaintain"
+            },
+            {
+              name: "安全管理",
+              page: "SafetyManagement"
+            },
+            {
+              name: "用户管理",
+              page: "UserManagement"
+            }
+          ]
+        },
+        {
+          name: "网络",
+          isSubShow: false,
+          subItems: [
+            {
+              name: "基本配置",
+              page: "BasicConfiguration"
+            },
+            {
+              name: "高级配置",
+              page: "AdvancedConfiguration"
+            }
+          ]
+        },
+        {
+          name: "视音频",
+          isSubShow: false,
+          page: "VideoAndAudio",
           subItems: []
         },
         {
-          name: "现金管理学习",
+          name: "图像",
           isSubShow: false,
+          page: "Image",
+          subItems: []
+        },
+        {
+          name: "事件",
+          isSubShow: false,
+          page: "Event",
           subItems: []
         }
       ]
     };
   },
   methods: {
-    showToggle: function(item, ind) {
+    showToggle: function (item, ind) {
       this.menuList.forEach(i => {
         // 判断如果数据中的menuList[i]的show属性不等于当前数据的isSubShow属性那么menuList[i]等于false
         if (i.isSubShow !== this.menuList[ind].isSubShow) {
@@ -114,11 +115,11 @@ export default {
         }
       });
       item.isSubShow = !item.isSubShow;
-      console.log(item.name);
+      if (item.page) this.componentName = item.page;
     },
-    created() {}
+    created () { }
   },
-  mounted() {}
+  mounted () { }
 };
 </script>
 

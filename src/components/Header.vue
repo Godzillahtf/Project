@@ -1,7 +1,8 @@
 <template>
   <div id="header">
-    <a @click="logout"
-       class='iconfont icon-zhuxiaologout10'>注销</a>
+    <router-link to="/"> <a @click="logout"
+         class='iconfont icon-zhuxiaologout10'>注销</a>
+    </router-link>
     <a @click="help"
        class="iconfont icon-bangzhu">帮助</a>
     <a @click='user'
@@ -34,6 +35,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+@import "../assets/icon/iconfont.css";
 #header {
   top: 0;
   height: 35px;
@@ -42,9 +44,10 @@ export default {
   background-color: #000000;
   opacity: 0.5;
 }
-#header > a {
+#header a {
   float: right;
   line-height: 35px;
+  font-size: 16px;
   color: #ffffff;
   margin-right: 50px;
   cursor: pointer;

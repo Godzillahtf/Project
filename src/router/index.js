@@ -1,17 +1,20 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Header from "@/components/Header";
 import Login from "@/page/Login";
 import Index from "@/page/Index";
-import Component1 from "@/components/Header copy";
-import Component2 from "@/components/Header copy 2";
+import LocalSite from "@/components/LocalSite";
+import SystemSite from "@/components/SystemSite";
+import Header from "@/components/Header";
+import HeadMenu from "@/components/HeadMenu";
+import SystemMaintain from "@/components/SystemMaintain";
+import SafetyManagement from "@/components/SafetyManagement";
+import UserManagement from "@/components/UserManagement";
 
 Vue.use(Router);
 
 export default new Router({
   mode: "history",
-  routes: [
-    {
+  routes: [{
       path: "/",
       name: "Login",
       component: Login
@@ -27,14 +30,34 @@ export default new Router({
       component: Header
     },
     {
-      path: "/component1",
-      name: "component1",
-      component: Component1
+      path: "/localsite",
+      name: "Localsite",
+      component: LocalSite
     },
     {
-      path: "/component2",
-      name: "component2",
-      component: Component2
+      path: "/systemsite",
+      name: "SystemSite",
+      component: SystemSite
+    },
+    {
+      path: "/systemmaintain",
+      name: "SystemMaintain",
+      component: SystemMaintain
+    },
+    {
+      path: "/safetymanagement",
+      name: "SafetyManagement",
+      component: SafetyManagement
+    },
+    {
+      path: "/usermanagement",
+      name: "UserManagement",
+      component: UserManagement
+    },
+    {
+      path: "/headmenu",
+      name: "HeadMenu",
+      component: HeadMenu
     }
   ]
 });
