@@ -130,14 +130,14 @@ export default {
   padding: 0;
 }
 .asideMenu {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #ffffff;
   width: 150px;
   height: 100%;
   text-align: center;
   cursor: pointer;
-  color: #ffffff;
+  color: #000000;
   position: fixed;
-  top: 35px;
+  top: 50px;
 }
 .oneMenu {
   margin-top: 10px;
@@ -145,5 +145,9 @@ export default {
 }
 .oneMenuChild {
   margin-top: 5px;
+}
+li:hover {
+  background-color: #ffffff;
+  color: rgb(104, 104, 104);
 }
 </style>

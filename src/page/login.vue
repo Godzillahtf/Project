@@ -29,7 +29,7 @@
                @click="login" />
       </div>
 
-      <router-link to="/index">
+      <router-link to="/index1">
         <a>忘记密码</a>
       </router-link>
     </div>
@@ -134,6 +134,7 @@ export default {
   position: absolute;
   line-height: 30px;
   right: 15px;
+  cursor: pointer;
 }
 #loginForm > a {
   color: #ffffff;
