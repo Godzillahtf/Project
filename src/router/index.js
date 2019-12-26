@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/page/Login";
 import Index from "@/page/Index";
-import Index1 from "@/page/Index1";
+import Site from "@/page/Site";
 
 Vue.use(Router);
 
@@ -19,9 +19,9 @@ export default new Router({
       component: Index
     },
     {
-      path: "/index1",
-      name: "Index1",
-      component: Index1
+      path: "/site",
+      name: "Site",
+      component: Site
     }
   ]
 });

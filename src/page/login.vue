@@ -29,7 +29,7 @@
                @click="login" />
       </div>
 
-      <router-link to="/index1">
+      <router-link to="/index">
         <a>忘记密码</a>
       </router-link>
     </div>

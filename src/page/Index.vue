@@ -1,121 +1,52 @@
 <template>
   <div id="index">
     <Header></Header>
-    <ul class="asideMenu">
-      <li v-for="(item,index) in menuList"
-          v-bind:key="item.id">
-        <div class="oneMenu"
-             @click="showToggle(item,index)">
-          <span>{{item.name}}</span>
-        </div>
-        <ul v-show="item.isSubShow">
-          <li v-for="subItem in item.subItems"
-              v-bind:key="subItem.id">
-            <div class="oneMenuChild"
-                 @click="componentName = subItem.page">{{subItem.name}}</div>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <div id="menu">
+      <span class="iconfont icon-caidan">&nbsp;&nbsp;&nbsp;菜单</span>
+      <span class="
+            iconfont
+            icon-shexiangtou"
+            page="live"
+            @click="changePage">&nbsp;&nbsp;&nbsp;摄像头</span>
+      <!-- <span class="iconfont icon-shexiangtou"
+            page="replay"
+            @click="changePage">&nbsp;&nbsp;&nbsp;回放</span> -->
+      <span class="iconfont icon-wenjian"
+            page="local"
+            @click="changePage">&nbsp;&nbsp;&nbsp;本地</span>
+      <span class="iconfont icon-paizhao"
+            page="image"
+            @click="changePage">&nbsp;&nbsp;&nbsp;抓图</span>
+      <span class="iconfont icon-shexiangtou"
+            page="smart"
+            @click="changePage">&nbsp;&nbsp;&nbsp;SMART</span>
+      <span class="iconfont icon-set"
+            page="set"
+            @click="changePage">&nbsp;&nbsp;&nbsp;设置</span>
+    </div>
     <component v-bind:is="componentName"></component>
   </div>
 </template>
 
 <script >
 import Header from "../components/Header";
-import LocalSite from "../components/LocalSite";
-import SystemSite from "../components/SystemSite";
-import SystemMaintain from "../components/SystemMaintain";
-import SafetyManagement from "../components/SafetyManagement";
-import UserManagement from "../components/UserManagement";
-
+import componentlive from "../components/componentlive";
+import componentreplay from "../components/componentreplay";
 export default {
-  name: "index",
+  name: "index1",
   components: {
     Header,
-    LocalSite,
-    SystemSite,
-    SystemMaintain,
-    SafetyManagement,
-    UserManagement
+    componentlive,
+    componentreplay
   },
   data () {
     return {
-      componentName: "SystemMaintain",
-      menuList: [
-        {
-          name: "本地",
-          page: "LocalSite",
-          isSubShow: false,
-          subItems: []
-        },
-        {
-          name: "系统",
-          isSubShow: false,
-          subItems: [
-            {
-              name: "系统设置",
-              page: "SystemSite"
-            },
-            {
-              name: "系统维护",
-              page: "SystemMaintain"
-            },
-            {
-              name: "安全管理",
-              page: "SafetyManagement"
-            },
-            {
-              name: "用户管理",
-              page: "UserManagement"
-            }
-          ]
-        },
-        {
-          name: "网络",
-          isSubShow: false,
-          subItems: [
-            {
-              name: "基本配置",
-              page: "BasicConfiguration"
-            },
-            {
-              name: "高级配置",
-              page: "AdvancedConfiguration"
-            }
-          ]
-        },
-        {
-          name: "视音频",
-          isSubShow: false,
-          page: "VideoAndAudio",
-          subItems: []
-        },
-        {
-          name: "图像",
-          isSubShow: false,
-          page: "Image",
-          subItems: []
-        },
-        {
-          name: "事件",
-          isSubShow: false,
-          page: "Event",
-          subItems: []
-        }
-      ]
-    };
-  },
+      componentName: "componentlive"
+    }  },
   methods: {
-    showToggle: function (item, ind) {
-      this.menuList.forEach(i => {
-        // 判断如果数据中的menuList[i]的show属性不等于当前数据的isSubShow属性那么menuList[i]等于false
-        if (i.isSubShow !== this.menuList[ind].isSubShow) {
-          i.isSubShow = false;
-        }
-      });
-      item.isSubShow = !item.isSubShow;
-      if (item.page) this.componentName = item.page;
+    changePage: function (e) {
+      this.componentName = "component" + e.currentTarget.getAttribute('page');
+      console.log(this.componentName);
     },
     created () { }
   },
@@ -129,25 +60,29 @@ export default {
   margin: 0;
   padding: 0;
 }
-.asideMenu {
-  background-color: #ffffff;
-  width: 150px;
-  height: 100%;
-  text-align: center;
-  cursor: pointer;
-  color: #000000;
+#menu {
+  width: 50px;
+  overflow: hidden;
   position: fixed;
-  top: 50px;
-}
-.oneMenu {
-  margin-top: 10px;
-  border: 1px solid #000000;
-}
-.oneMenuChild {
-  margin-top: 5px;
-}
-li:hover {
+  top: 0;
+  box-shadow: 0px 0 1px 0px #000000;
+  bottom: 0px;
   background-color: #ffffff;
-  color: rgb(104, 104, 104);
+  z-index: 100;
+}
+#menu:hover {
+  width: 200px;
+}
+#menu > span {
+  padding-left: 20px;
+  white-space: nowrap;
+  display: inline-block;
+  width: 100%;
+  line-height: 70px;
+  font-size: 18px;
+  cursor: pointer;
+}
+#menu > span:not(:first-child):hover {
+  background-color: rgba(195, 195, 195, 0.5);
 }
 </style>
