@@ -41,7 +41,7 @@ export default {
   top: 0;
   height: 50px;
   width: 100%;
-  position: fixed;
+  position: relative;
   background-color: rgb(47, 50, 62);
 }
 #header a {

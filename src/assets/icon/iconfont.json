@@ -6,11 +6,46 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "145466",
+      "name": "帮助",
+      "font_class": "bangzhu",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "162010",
+      "name": "用户",
+      "font_class": "user",
+      "unicode": "e751",
+      "unicode_decimal": 59217
+    },
+    {
       "icon_id": "553323",
       "name": "姓名 用户名 昵称",
       "font_class": "xingmingyonghumingnicheng",
       "unicode": "e623",
       "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "606293",
+      "name": "注销",
+      "font_class": "zhuxiaologout10",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "1163336",
+      "name": "设置",
+      "font_class": "set",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "3851336",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e655",
+      "unicode_decimal": 58965
     },
     {
       "icon_id": "6181001",
@@ -25,6 +60,27 @@
       "font_class": "yanjing1",
       "unicode": "e63c",
       "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "6776384",
+      "name": "摄像头",
+      "font_class": "shexiangtou",
+      "unicode": "eca5",
+      "unicode_decimal": 60581
+    },
+    {
+      "icon_id": "7261843",
+      "name": "拍照",
+      "font_class": "paizhao",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "8348151",
+      "name": "文件",
+      "font_class": "wenjian",
+      "unicode": "e721",
+      "unicode_decimal": 59169
     },
     {
       "icon_id": "9841778",

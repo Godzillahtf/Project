@@ -10,18 +10,18 @@
             @click="changePage">&nbsp;&nbsp;&nbsp;摄像头</span>
       <!-- <span class="iconfont icon-shexiangtou"
             page="replay"
-            @click="changePage">&nbsp;&nbsp;&nbsp;回放</span> -->
+            @click="changePage">&nbsp;&nbsp;&nbsp;回放</span>
       <span class="iconfont icon-wenjian"
             page="local"
             @click="changePage">&nbsp;&nbsp;&nbsp;本地</span>
       <span class="iconfont icon-paizhao"
             page="image"
-            @click="changePage">&nbsp;&nbsp;&nbsp;抓图</span>
+            @click="changePage">&nbsp;&nbsp;&nbsp;抓图</span> -->
       <span class="iconfont icon-shexiangtou"
             page="smart"
             @click="changePage">&nbsp;&nbsp;&nbsp;SMART</span>
       <span class="iconfont icon-set"
-            page="set"
+            page="site"
             @click="changePage">&nbsp;&nbsp;&nbsp;设置</span>
     </div>
     <component v-bind:is="componentName"></component>
@@ -30,14 +30,16 @@
 
 <script >
 import Header from "../components/Header";
-import componentlive from "../components/componentlive";
-import componentreplay from "../components/componentreplay";
+import componentlive from "../components/componentLive";
+import componentsmart from "../components/componentSmart";
+import componentsite from '../components/componentSite';
 export default {
-  name: "index1",
+  name: "index",
   components: {
     Header,
     componentlive,
-    componentreplay
+    componentsmart,
+    componentsite
   },
   data () {
     return {
@@ -65,7 +67,7 @@ export default {
   overflow: hidden;
   position: fixed;
   top: 0;
-  box-shadow: 0px 0 1px 0px #000000;
+  box-shadow: 0px 0px 2px 0px #000000;
   bottom: 0px;
   background-color: #ffffff;
   z-index: 100;

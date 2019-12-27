@@ -1,5 +1,5 @@
 <template>
-  <div id="componentLive">
+  <div id="componentSmart">
     <object type="application/x-vlc-plugin"
             pluginspage="http://www.videolan.org/"
             id='vlc'
@@ -21,12 +21,28 @@
       <param name="text"
              value="请下载插件" />
     </object>
-  </div>
+    <div id='message'>
+      <el-card>
+        <el-row>
+          <el-col :span='8'>
+            <img src="../assets/logo.png">
+          </el-col>
+          <el-col :span='16'>
+            <div id="messageText">
+              识别信息<el-divider></el-divider>
+              信息1<el-divider></el-divider>
+              信息2<el-divider></el-divider>
+            </div>
+          </el-col>
+        </el-row>
 
+      </el-card>
+    </div>
+  </div>
 </template>
 <script >
 export default {
-  name: 'componentLive',
+  name: 'componentSmart',
   components: {
   },
   data () {
@@ -40,14 +56,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#componentLive {
+#componentSmart {
   position: fixed;
   width: 100%;
   height: 100%;
   top: 50px;
-  left: 150px;
+  left: 200px;
 }
-object {
-  margin-left: 50px;
+#message {
+  position: absolute;
+  right: 200px;
+  top: 0px;
+  width: 420px;
+  height: 410px;
+}
+#message img {
+  width: 100%;
+}
+#messageText {
+  word-wrap: break-word;
+  width: 100%;
 }
 </style>
