@@ -76,9 +76,20 @@
       </div>
       <div>
         录像文件保存路径：<input type="text">
+        <input type="button"
+               value="浏览"
+               @click="selectFolder">
+        <input type="button"
+               value="打开文件夹">
       </div>
       <div>
         回放下载保存路径：<input type="text">
+        <input type="file"
+               ref="file1"
+               webkitdirectory
+               directory>
+        <input type="button"
+               value="打开文件夹">
       </div>
     </el-card>
     <el-card class="box-card3"
@@ -89,14 +100,28 @@
       </div>
       <div>
         预览抓图保存路径：
+        <input type="file">
+        <input type="button"
+               value="浏览">
+        <input type="button"
+               value="打开文件夹">
       </div>
       <div>
         回放抓图保存路径：<input type="text">
+        <input type="button"
+               value="浏览">
+        <input type="button"
+               value="打开文件夹">
       </div>
       <div>
         回放剪辑保存路径：<input type="text">
+        <input type="button"
+               value="浏览">
+        <input type="button"
+               value="打开文件夹">
       </div>
     </el-card>
+    <el-button>保存</el-button>
   </div>
 </template>
 
@@ -143,7 +168,12 @@ export default {
       value3: "JPEG",
       value4: "on",
       value5: "on",
-      radio: "256M"
+      radio: "256M",
+      filename: "E:\Test",
+    }
+  },
+  methods: {
+    selectFolder: function () {
     }
   }
 }
@@ -157,5 +187,8 @@ export default {
 }
 .clearfix {
   height: 10px;
+}
+.el-button el-button--default {
+  margin: 10px auto;
 }
 </style>

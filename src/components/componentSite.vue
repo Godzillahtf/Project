@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     handleSelect: function (key, keyPath) {
-      componentName = keyPath[keyPath.length - 1];
+      this.componentName = keyPath[keyPath.length - 1];
       console.log(keyPath[keyPath.length - 1]);
     }
   }
@@ -156,8 +156,7 @@ export default {
 #site {
   position: relative;
   width: 100%;
-  height: 100%;
-  top: 50px;
-  left: 50px;
+  border-left: 50px solid #ffffff;
+  box-sizing: border-box;
 }
 </style>
