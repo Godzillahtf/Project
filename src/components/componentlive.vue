@@ -7,7 +7,7 @@
             width="740"
             height="410">
       <param name='mrl'
-             value='rtsp://192.168.1.63:8086/stream' />
+             value='rtsp://admin:warmnut1234@192.168.1.64' />
       <param name='volume'
              value='50' />
       <param name='autoplay'
