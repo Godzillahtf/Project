@@ -46,7 +46,6 @@
         <i class="iconfont icon-shexiangtou"></i>
         <span slot="title">存储</span>
       </el-menu-item>
-      </el-submenu>
     </el-menu>
     <component v-bind:is="componentName"></component>
   </div>
