@@ -4,15 +4,7 @@
   </div>
 </template>
 <script>
-export default {
-
-}
+export default {};
 </script>
 <style scoped>
-#xiaLingShi {
-  width: 1050px;
-  position: relative;
-  left: 200px;
-  top: 20px;
-}
 </style>
