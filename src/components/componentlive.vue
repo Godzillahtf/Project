@@ -45,7 +45,7 @@ export default {
   width: 100%;
   height: 100%;
   top: 50px;
-  left: 150px;
+  left: 200px;
 }
 object {
   margin-left: 50px;

@@ -1,29 +1,53 @@
 <template>
   <div id="index">
     <Header></Header>
-    <div id="menu">
-      <span class="iconfont icon-caidan">&nbsp;&nbsp;&nbsp;菜单</span>
-      <span class="
-            iconfont
-            icon-shexiangtou"
-            page="live"
-            @click="changePage">&nbsp;&nbsp;&nbsp;摄像头</span>
-      <!-- <span class="iconfont icon-shexiangtou"
-            page="replay"
-            @click="changePage">&nbsp;&nbsp;&nbsp;回放</span>
-      <span class="iconfont icon-wenjian"
-            page="local"
-            @click="changePage">&nbsp;&nbsp;&nbsp;本地</span>
-      <span class="iconfont icon-paizhao"
-            page="image"
-            @click="changePage">&nbsp;&nbsp;&nbsp;抓图</span> -->
-      <span class="iconfont icon-shexiangtou"
-            page="smart"
-            @click="changePage">&nbsp;&nbsp;&nbsp;SMART</span>
-      <span class="iconfont icon-set"
-            page="site"
-            @click="changePage">&nbsp;&nbsp;&nbsp;设置</span>
-    </div>
+    <el-menu default-active="1-4-1"
+             class="el-menu-vertical-demo"
+             @select="changePage">
+      <el-menu-item index="live">
+        <i class="iconfont icon-shexiangtou"></i>
+        <span slot="title">实时预览</span>
+      </el-menu-item>
+      <el-menu-item index="smart">
+        <i class="iconfont icon-shexiangtou"></i>
+        <span slot="title">智能识别</span>
+      </el-menu-item>
+      <el-menu-item index="smart">
+        <i class="iconfont icon-shexiangtou"></i>
+        <span slot="title">本地配置</span>
+      </el-menu-item>
+      <el-submenu index="site">
+        <template slot="title">
+          <i class="iconfont icon-set"></i>
+          <span slot="title">系统配置</span>
+        </template>
+        <el-menu-item index="1-3">系统设置</el-menu-item>
+        <el-menu-item index="1-3">系统维护</el-menu-item>
+        <el-menu-item index="1-3">安全管理</el-menu-item>
+        <el-menu-item index="1-3">用户管理</el-menu-item>
+      </el-submenu>
+      <el-submenu index="site1">
+        <template slot="title">
+          <i class="iconfont icon-set"></i>
+          <span slot="title">网络配置</span>
+        </template>
+        <el-menu-item index="1-3">基本配置</el-menu-item>
+        <el-menu-item index="1-3">高级配置</el-menu-item>
+      </el-submenu>
+      <el-menu-item index="smart">
+        <i class="iconfont icon-shexiangtou"></i>
+        <span slot="title">视音频</span>
+      </el-menu-item>
+      <el-menu-item index="smart">
+        <i class="iconfont icon-shexiangtou"></i>
+        <span slot="title">图像</span>
+      </el-menu-item>
+      <el-menu-item index="smart">
+        <i class="iconfont icon-shexiangtou"></i>
+        <span slot="title">存储</span>
+      </el-menu-item>
+      </el-submenu>
+    </el-menu>
     <component v-bind:is="componentName"></component>
   </div>
 </template>
@@ -46,8 +70,8 @@ export default {
       componentName: "componentlive"
     }  },
   methods: {
-    changePage: function (e) {
-      this.componentName = "component" + e.currentTarget.getAttribute('page');
+    changePage: function (index, indexPath) {
+      this.componentName = "component" + index;
       console.log(this.componentName);
     },
     created () { }
@@ -62,29 +86,10 @@ export default {
   margin: 0;
   padding: 0;
 }
-#menu {
-  width: 50px;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  box-shadow: 0px 0px 2px 0px #000000;
-  bottom: 0px;
-  background-color: #ffffff;
-  z-index: 100;
-}
-#menu:hover {
+</style>
+<style>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-}
-#menu > span {
-  padding-left: 20px;
-  white-space: nowrap;
-  display: inline-block;
-  width: 100%;
-  line-height: 70px;
-  font-size: 18px;
-  cursor: pointer;
-}
-#menu > span:not(:first-child):hover {
-  background-color: rgba(195, 195, 195, 0.5);
+  min-height: 600px;
 }
 </style>

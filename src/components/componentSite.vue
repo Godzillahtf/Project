@@ -66,7 +66,9 @@
         <el-menu-item index="Obscuration">视频遮盖</el-menu-item>
       </el-submenu>
     </el-menu>
+    
     <component v-bind:is="componentName"></component>
+
   </div>
 </template>
 <script >
@@ -139,7 +141,9 @@ export default {
   },
   data () {
     return {
-      componentName: "LocalSite"
+      componentName: "LocalSite",
+      componentTitle: "本地设置",
+      drawer: false,
     }
   },
   methods: {
@@ -158,5 +162,10 @@ export default {
   width: 100%;
   border-left: 50px solid #ffffff;
   box-sizing: border-box;
+}
+</style>
+<style >
+:focus {
+  outline: 0;
 }
 </style>
