@@ -28,7 +28,8 @@ export default {
 #systemMaintain {
   position: relative;
   padding: 50px;
-  bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 30px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }

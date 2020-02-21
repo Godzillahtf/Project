@@ -1,120 +1,78 @@
 <template>
   <div id="localSite">
-    <el-card class="box-card1" shadow="always" body-style="padding:5px">
-      <div slot="header" class="clearfix">
-        <span>播放参数</span>
-      </div>
-      <div>
-        <el-row>
-          <el-col :span="8">
-            协议类型：
-            <el-select v-model="value1">
-              <el-option
-                v-for="item in options1"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="8">
-            播放性能：
-            <el-select v-model="value2">
-              <el-option
-                v-for="item in options2"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="8">
-            抓图文件格式：
-            <el-select v-model="value3">
-              <el-option
-                v-for="item in options3"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            规则信息：
-            <el-switch
-              v-model="value4"
-              active-value="on"
-              inactive-value="off"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            ></el-switch>
-            {{value4}}
-          </el-col>
-          <el-col :span="8">
-            POS信息叠加：
-            <el-switch
-              v-model="value5"
-              active-value="on"
-              inactive-value="off"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            ></el-switch>
-            {{value5}}
-          </el-col>
-        </el-row>
-      </div>
-    </el-card>
-    <el-card class="box-card2" body-style="padding:5px">
-      <div slot="header" class="clearfix">
-        <span>录像文件</span>
-      </div>
-      <div>
-        录像文件打包大小：
-        <el-radio-group v-model="radio">
-          <el-radio label="256M">256M</el-radio>
-          <el-radio label="512M">512M</el-radio>
-          <el-radio label="1G">1G</el-radio>
-        </el-radio-group>
-      </div>
-      <div>
-        录像文件保存路径：
-        <input type="text" />
-        <input type="button" value="浏览" @click="selectFolder" />
-        <input type="button" value="打开文件夹" />
-      </div>
-      <div>
-        回放下载保存路径：
-        <input type="text" />
-        <input type="file" ref="file1" webkitdirectory directory />
-        <input type="button" value="打开文件夹" />
-      </div>
-    </el-card>
-    <el-card class="box-card3" body-style="padding:5px">
-      <div slot="header" class="clearfix">
-        <span>抓图和剪辑</span>
-      </div>
-      <div>
-        预览抓图保存路径：
-        <input type="file" />
-        <input type="button" value="浏览" />
-        <input type="button" value="打开文件夹" />
-      </div>
-      <div>
-        回放抓图保存路径：
-        <input type="text" />
-        <input type="button" value="浏览" />
-        <input type="button" value="打开文件夹" />
-      </div>
-      <div>
-        回放剪辑保存路径：
-        <input type="text" />
-        <input type="button" value="浏览" />
-        <input type="button" value="打开文件夹" />
-      </div>
-    </el-card>
-    <el-button>保存</el-button>
+    <el-form label-position="left" label-width="200px" size="mini" :model="formLabelAlign">
+      <el-form-item label="协议类型">
+        <el-select v-model="formLabelAlign.value1" :style="style">
+          <el-option
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="播放性能">
+        <el-select v-model="formLabelAlign.value2" :style="style">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="抓图文件格式">
+        <el-select v-model="formLabelAlign.value3" :style="style">
+          <el-option
+            v-for="item in options3"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="规则信息">
+        <el-select v-model="formLabelAlign.value4" :style="style">
+          <el-option
+            v-for="item in options4"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="POS信息叠加">
+        <el-select v-model="formLabelAlign.value5" :style="style">
+          <el-option
+            v-for="item in options4"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="录像文件打包大小">
+        <el-select v-model="formLabelAlign.radio" :style="style">
+          <el-option v-for="item in options5" :key="item" :value="item"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="录像文件保存路径">
+        <el-input v-model="formLabelAlign.webVersion" :style="style"></el-input>
+      </el-form-item>
+      <el-form-item label="回放下载路径">
+        <el-input v-model="formLabelAlign.pluginVersion" :style="style"></el-input>
+      </el-form-item>
+      <el-form-item label="预览抓图保存路径">
+        <el-input v-model="formLabelAlign.aisleCount" :style="style"></el-input>
+      </el-form-item>
+      <el-form-item label="回放抓图保存路径">
+        <el-input v-model="formLabelAlign.hardDiskCount" :style="style"></el-input>
+      </el-form-item>
+      <el-form-item label="回放剪辑保存路径">
+        <el-input v-model="formLabelAlign.alarmInputCount" :style="style"></el-input>
+      </el-form-item>
+      <el-button type="primary">保存</el-button>
+    </el-form>
   </div>
 </template>
 
@@ -123,6 +81,16 @@ export default {
   name: "localSite",
   data() {
     return {
+      formLabelAlign: {
+        value1: "TCP",
+        value2: "short",
+        value3: "JPEG",
+        value4: "on",
+        value5: "on",
+        radio: "256M",
+        filename: "E:Test"
+      },
+      style: "width:400px",
       options1: [
         {
           value: "TCP",
@@ -165,19 +133,29 @@ export default {
           label: "BMP"
         }
       ],
-      value1: "TCP",
-      value2: "short",
-      value3: "JPEG",
-      value4: "on",
-      value5: "on",
-      radio: "256M",
-      filename: "E:Test"
+      options4: [
+        {
+          value: "on",
+          label: "开启"
+        },
+        {
+          value: "off",
+          label: "关闭"
+        }
+      ],
+      options5: ["256M", "512M", "1G"]
     };
   },
-  methods: {
-    selectFolder: function() {}
-  }
+  methods: {}
 };
 </script>
 <style scoped>
+#localSite {
+  position: relative;
+  padding: 50px 150px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+}
 </style>
