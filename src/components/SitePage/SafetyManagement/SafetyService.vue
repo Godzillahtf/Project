@@ -2,7 +2,7 @@
   <div id="safetyService">
     <el-form label-position="left" label-width="80px">
       <el-form-item>
-        <el-checkbox v-model="checked">启用红外灯</el-checkbox>
+        <el-checkbox v-model="checked">启用非法登录锁定</el-checkbox>
       </el-form-item>
     </el-form>
   </div>

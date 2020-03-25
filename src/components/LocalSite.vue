@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="播放性能">
-        <el-select v-model="formLabelAlign.value2" :style="style">
+        <el-select v-model="formLabelAlign.value2" :style="style" allow-create filterable>
           <el-option
             v-for="item in options2"
             :key="item.value"

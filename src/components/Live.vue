@@ -4,11 +4,12 @@
       type="application/x-vlc-plugin"
       pluginspage="http://www.videolan.org/"
       id="vlc"
+      codebase="http://comic.sjtu.edu.cn/vlc/cab/axvlc.cab"
       events="false"
       width="740"
       height="410"
     >
-      <param name="mrl" value="rtsp://admin:warmnut1234@192.168.1.64" />
+      <param name="mrl" value="rtsp://192.168.1.4:8888/11" />
       <param name="volume" value="50" />
       <param name="autoplay" value="true" />
       <param name="loop" value="false" />

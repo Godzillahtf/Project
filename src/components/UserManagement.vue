@@ -2,7 +2,7 @@
   <div id="userManagement">
     <el-tabs v-model="activeName">
       <el-tab-pane label="用户管理" name="first">
-        <UserManagement />
+        <UserManagement1 />
       </el-tab-pane>
       <el-tab-pane label="在线用户" name="second">
         <UserOnline />
@@ -11,12 +11,12 @@
   </div>
 </template>
 <script>
-import UserManagement from "./SitePage/UserManagement/UserManagement";
+import UserManagement1 from "./SitePage/UserManagement/UserManagement1";
 import UserOnline from "./SitePage/UserManagement/UserOnline";
 export default {
   name: "userManagement",
   components: {
-    UserManagement,
+    UserManagement1,
     UserOnline
   },
   data() {
