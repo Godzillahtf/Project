@@ -5,7 +5,7 @@
       <a @click="logout" class="iconfont icon-zhuxiaologout10">注销</a>
     </router-link>
     <a @click="help" class="iconfont icon-bangzhu">帮助</a>
-    <a @click="user" class="iconfont icon-user">{{username}}</a>
+    <a @click="user" class="iconfont icon-yonghu">{{username}}</a>
   </div>
 </template>
 

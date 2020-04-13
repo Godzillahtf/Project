@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="Signup">
     <img id="logo" src="../assets/logo.png" />
     <div id="loginForm">
       <h1>智能监控系统</h1>
@@ -8,21 +8,31 @@
         <input type="text" id="username-input" v-model="username" placeholder="用户名" />
       </div>
       <div class="password-div">
-        <label class="iconfont icon-mima" for="password-input"></label>
-        <input type="password" id="password-input" v-model="password" placeholder="密码" />
+        <label class="iconfont icon-mima" for="password-input1"></label>
+        <input type="password" id="password-input1" v-model="password1" placeholder="密码" />
         <a
-          v-bind:class="{'iconfont icon-biyan':isPassword,'iconfont icon-jurassic_openeyes':!isPassword}"
-          @click="showPassword"
+          v-bind:class="{'iconfont icon-biyan':isPassword1,'iconfont icon-jurassic_openeyes':!isPassword1}"
+          @click="showPassword1"
         ></a>
       </div>
-      <div class="loginbtn">
-        <input type="button" value="登录" @click="login" />
+      <div class="password-div">
+        <label class="iconfont icon-mima" for="password-input2"></label>
+        <input type="password" id="password-input2" v-model="password2" placeholder="再次输入密码" />
+        <a
+          v-bind:class="{'iconfont icon-biyan':isPassword2,'iconfont icon-jurassic_openeyes':!isPassword2}"
+          @click="showPassword2"
+        ></a>
       </div>
-      <router-link to="/password">
-        <a>忘记密码</a>
-      </router-link>
-      <router-link to="/signup">
-        <a>没有账号？去注册</a>
+      <div class="username-div">
+        <label class="iconfont icon-yanzhengma54" for="captcha-input"></label>
+        <input type="text" id="captcha-input" v-model="captcha" placeholder="验证码" />
+      </div>
+      <div class="loginbtn">
+        <input type="button" value="注册" @click="login" />
+      </div>
+
+      <router-link to="/">
+        <a>已有账号？去登录</a>
       </router-link>
     </div>
   </div>
@@ -30,14 +40,17 @@
 
 <script >
 export default {
-  name: "login",
+  name: "Signup",
   components: {},
   data() {
     return {
-      username: "admin",
-      password: "",
+      username: "",
+      password1: "",
+      password2: "",
+      captcha: "",
       message: "",
-      isPassword: true
+      isPassword1: true,
+      isPassword2: true
     };
   },
   methods: {
@@ -46,12 +59,21 @@ export default {
         this.message = "用户名不能为空！";
       } else if (this.password == "") {
         this.message = "密码不能为空";
+      } else if (this.captcha == "") {
+        this.message = "验证码不能为空";
+      } else if (this.password1 !== this.password2) {
+        this.message = "两次输入密码不一致";
       } else this.message = "";
-      this.$router.push({ path: "/index/" + this.username });
     },
-    showPassword: function() {
-      this.isPassword = !this.isPassword;
-      document.getElementById("password-input").type = this.isPassword
+    showPassword1: function() {
+      this.isPassword1 = !this.isPassword1;
+      document.getElementById("password-input1").type = this.isPassword1
+        ? "password"
+        : "text";
+    },
+    showPassword2: function() {
+      this.isPassword2 = !this.isPassword2;
+      document.getElementById("password-input2").type = this.isPassword2
         ? "password"
         : "text";
     }
@@ -69,7 +91,7 @@ export default {
   display: block;
   margin: 0px auto;
 }
-#login {
+#Signup {
   background: url("../assets/123.jpg") center;
   width: 100%;
   height: 100%;
@@ -80,7 +102,7 @@ export default {
 #loginForm {
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.3);
-  height: 300px;
+  height: 400px;
   width: 400px;
   margin: 0px auto;
   box-shadow: 0 0 5px black;

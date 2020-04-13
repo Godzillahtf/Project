@@ -8,43 +8,41 @@
             <i class="iconfont icon-shexiangtou"></i>
             <span slot="title">实时预览</span>
           </el-menu-item>
-          <el-menu-item index="Smart">
-            <i class="iconfont icon-shexiangtou"></i>
-            <span slot="title">智能识别</span>
-          </el-menu-item>
           <el-menu-item index="LocalSite">
-            <i class="iconfont icon-shexiangtou"></i>
+            <i class="iconfont icon-bendi"></i>
             <span slot="title">本地配置</span>
           </el-menu-item>
-          <el-submenu index="siteSystem">
-            <template slot="title">
-              <i class="iconfont icon-set"></i>
-              <span slot="title">系统配置</span>
-            </template>
-            <el-menu-item index="SystemSite">系统设置</el-menu-item>
-            <el-menu-item index="SystemMaintain">系统维护</el-menu-item>
-            <el-menu-item index="SafetyManagement">安全管理</el-menu-item>
-            <el-menu-item index="UserManagement">用户管理</el-menu-item>
-          </el-submenu>
-          <el-submenu index="siteInternet">
-            <template slot="title">
-              <i class="iconfont icon-set"></i>
-              <span slot="title">网络配置</span>
-            </template>
-            <el-menu-item index="BasicSite">基本配置</el-menu-item>
-            <el-menu-item index="AdvancedSite">高级配置</el-menu-item>
-          </el-submenu>
-          <el-menu-item index="VideoAideo">
-            <i class="iconfont icon-shexiangtou"></i>
-            <span slot="title">视音频</span>
+          <el-menu-item index="SystemSite">
+            <i class="iconfont icon-shezhi"></i>
+            <span slot="title">系统设置</span>
           </el-menu-item>
-          <el-menu-item index="Images">
-            <i class="iconfont icon-shexiangtou"></i>
-            <span slot="title">图像</span>
+          <el-menu-item index="ArmingSite">
+            <i class="iconfont icon-jingbao"></i>
+            <span slot="title">布防设置</span>
           </el-menu-item>
-          <el-menu-item index="Storage">
-            <i class="iconfont icon-shexiangtou"></i>
-            <span slot="title">存储</span>
+          <el-menu-item index="DeviceSite">
+            <i class="iconfont icon-shebei"></i>
+            <span slot="title">设备配置</span>
+          </el-menu-item>
+          <el-menu-item index="GroupSite">
+            <i class="iconfont icon-fenzu"></i>
+            <span slot="title">分组配置</span>
+          </el-menu-item>
+          <el-menu-item index="CameraControl">
+            <i class="iconfont icon-kongzhi"></i>
+            <span slot="title">相机控制</span>
+          </el-menu-item>
+          <el-menu-item index="MapSite">
+            <i class="iconfont icon-ditu"></i>
+            <span slot="title">地图配置</span>
+          </el-menu-item>
+          <el-menu-item index="Picture">
+            <i class="iconfont icon-tupian"></i>
+            <span slot="title">设备抓图</span>
+          </el-menu-item>
+          <el-menu-item index="User">
+            <i class="iconfont icon-yonghu"></i>
+            <span slot="title">账户管理</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -59,34 +57,30 @@
 <script>
 import Header from "../components/Header";
 import Live from "../components/Live";
-import Smart from "../components/Smart";
 import LocalSite from "../components/LocalSite";
-import SafetyManagement from "../components/SafetyManagement";
-import VideoAideo from "../components/VideoAideo";
-import UserManagement from "../components/UserManagement";
 import SystemSite from "../components/SystemSite";
-import SystemMaintain from "../components/SystemMaintain";
-import Storage from "../components/Storage";
-import Images from "../components/image";
-import BasicSite from "../components/BasicSite";
-import AdvancedSite from "../components/AdvancedSite";
+import ArmingSite from "../components/ArmingSite";
+import DeviceSite from "../components/DeviceSite";
+import GroupSite from "../components/GroupSite";
+import CameraControl from "../components/CameraControl";
+import MapSite from "../components/MapSite";
+import Picture from "../components/Picture";
+import User from "../components/User";
 
 export default {
   name: "index",
   components: {
+    GroupSite,
+    CameraControl,
+    MapSite,
+    DeviceSite,
+    ArmingSite,
+    SystemSite,
+    LocalSite,
     Header,
     Live,
-    Smart,
-    LocalSite,
-    SafetyManagement,
-    VideoAideo,
-    UserManagement,
-    SystemSite,
-    SystemMaintain,
-    Storage,
-    Images,
-    BasicSite,
-    AdvancedSite
+    Picture,
+    User
   },
   data() {
     return {
@@ -114,6 +108,6 @@ export default {
 <style>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 600px;
+  min-height: 650px;
 }
 </style>

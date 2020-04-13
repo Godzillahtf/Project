@@ -1,9 +1,9 @@
 <template>
-  <div id="Live"></div>
+  <div id="MapSite"></div>
 </template>
-<script>
+<script >
 export default {
-  name: "Live",
+  name: "MapSite",
   components: {},
   data() {
     return {};
@@ -11,10 +11,8 @@ export default {
   methods: {}
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#Live {
+#MapSite {
   position: fixed;
   width: 100%;
   height: 100%;

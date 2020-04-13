@@ -1,8 +1,13 @@
 <template>
   <div id="localSite">
-    <el-form label-position="left" label-width="200px" size="mini" :model="formLabelAlign">
+    <el-form
+      label-position="left"
+      label-width="200px"
+      size="mini"
+      :model="formLabelAlign"
+    >
       <el-form-item label="协议类型">
-        <el-select v-model="formLabelAlign.value1" :style="style">
+        <el-select v-model="formLabelAlign.protocolType" :style="style">
           <el-option
             v-for="item in options1"
             :key="item.value"
@@ -12,7 +17,12 @@
         </el-select>
       </el-form-item>
       <el-form-item label="播放性能">
-        <el-select v-model="formLabelAlign.value2" :style="style" allow-create filterable>
+        <el-select
+          v-model="formLabelAlign.playPerformance"
+          :style="style"
+          allow-create
+          filterable
+        >
           <el-option
             v-for="item in options2"
             :key="item.value"
@@ -22,7 +32,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="抓图文件格式">
-        <el-select v-model="formLabelAlign.value3" :style="style">
+        <el-select v-model="formLabelAlign.pictureType" :style="style">
           <el-option
             v-for="item in options3"
             :key="item.value"
@@ -32,7 +42,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="规则信息">
-        <el-select v-model="formLabelAlign.value4" :style="style">
+        <el-select v-model="formLabelAlign.ruleInformation" :style="style">
           <el-option
             v-for="item in options4"
             :key="item.value"
@@ -42,7 +52,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="POS信息叠加">
-        <el-select v-model="formLabelAlign.value5" :style="style">
+        <el-select v-model="formLabelAlign.POS" :style="style">
           <el-option
             v-for="item in options4"
             :key="item.value"
@@ -51,27 +61,9 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="录像文件打包大小">
-        <el-select v-model="formLabelAlign.radio" :style="style">
-          <el-option v-for="item in options5" :key="item" :value="item"></el-option>
-        </el-select>
+      <el-form-item style="text-align:right">
+        <el-button type="primary">保存</el-button>
       </el-form-item>
-      <el-form-item label="录像文件保存路径">
-        <el-input v-model="formLabelAlign.webVersion" :style="style"></el-input>
-      </el-form-item>
-      <el-form-item label="回放下载路径">
-        <el-input v-model="formLabelAlign.pluginVersion" :style="style"></el-input>
-      </el-form-item>
-      <el-form-item label="预览抓图保存路径">
-        <el-input v-model="formLabelAlign.aisleCount" :style="style"></el-input>
-      </el-form-item>
-      <el-form-item label="回放抓图保存路径">
-        <el-input v-model="formLabelAlign.hardDiskCount" :style="style"></el-input>
-      </el-form-item>
-      <el-form-item label="回放剪辑保存路径">
-        <el-input v-model="formLabelAlign.alarmInputCount" :style="style"></el-input>
-      </el-form-item>
-      <el-button type="primary">保存</el-button>
     </el-form>
   </div>
 </template>
@@ -82,15 +74,13 @@ export default {
   data() {
     return {
       formLabelAlign: {
-        value1: "TCP",
-        value2: "short",
-        value3: "JPEG",
-        value4: "on",
-        value5: "on",
-        radio: "256M",
-        filename: "E:Test"
+        protocolType: "TCP",
+        playPerformance: "short",
+        pictureType: "JPEG",
+        ruleInformation: "on",
+        POS: "on"
       },
-      style: "width:400px",
+      style: "width:450px",
       options1: [
         {
           value: "TCP",
