@@ -1,18 +1,13 @@
 <template>
   <div id="video1" style="text-align:center">
-    <el-switch v-model="value" active-text="开启" inactive-text="关闭">
-    </el-switch>
+    <el-switch v-model="value" active-text="开启" inactive-text="关闭" @change="changeValue"></el-switch>
     <div class="message">
       <img src="../../assets/video.jpg" />
       <div class="messageText">
         <h3>全天录像开启时：</h3>
-        <p>
-          设备会对全天的视频信息进行录像，并且保存到硬盘中，直到硬盘存储容量达到最大。
-        </p>
+        <p>设备会对全天的视频信息进行录像，并且保存到硬盘中，直到硬盘存储容量达到最大。</p>
         <h3>全天录像关闭时：</h3>
-        <p>
-          设备不开启全天录像功能，只会在移动侦测时才开启录像功能。
-        </p>
+        <p>设备不开启全天录像功能，只会在移动侦测时才开启录像功能。</p>
       </div>
     </div>
   </div>
@@ -25,7 +20,57 @@ export default {
       value: true
     };
   },
-  methods: {}
+  methods: {
+    showMessage: function() {
+      this.$axios({
+        url:
+          "https://open.ys7.com/api/lapp/device/fullday/record/switch/status",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            this.value = res.data.data.enable == 1 ? true : false;
+          } else {
+            console.log(res.data.msg);
+            this.value = false;
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    changeValue: function() {
+      var value1 = this.value ? 1 : 0;
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/fullday/record/switch/set",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          enable: value1
+        }
+      })
+        .then(res => {
+          if (res.data.code != "200") {
+            this.value = !this.value;
+            console.log(res.data.msg);
+          } else {
+            console.log("更改成功！");
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error.data);
+          this.value = !this.value;
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
+  }
 };
 </script>
 <style scoped>

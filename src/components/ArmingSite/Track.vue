@@ -1,16 +1,13 @@
 <template>
   <div id="track1" style="text-align:center">
-    <el-switch v-model="value" active-text="开启" inactive-text="关闭">
-    </el-switch>
+    <el-switch v-model="value" active-text="开启" inactive-text="关闭" @change="changeValue"></el-switch>
     <div class="message">
       <img src="../../assets/track.jpg" />
       <div class="messageText">
         <h3>移动跟踪开启时：</h3>
         <p>当视频监控中有物体移动时，摄像头会根据其运动方向调整摄像角度</p>
         <h3>移动跟踪关闭时：</h3>
-        <p>
-          系统不会根据其运动方向调整摄像角度
-        </p>
+        <p>系统不会根据其运动方向调整摄像角度</p>
       </div>
     </div>
   </div>
@@ -23,7 +20,56 @@ export default {
       value: true
     };
   },
-  methods: {}
+  methods: {
+    showMessage: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/mobile/status/get",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            this.value = res.data.data.enable == 1 ? true : false;
+          } else {
+            console.log(res.data.msg);
+            this.value = false;
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    changeValue: function() {
+      var value1 = this.value ? 1 : 0;
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/mobile/status/set",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          enable: value1
+        }
+      })
+        .then(res => {
+          if (res.data.code != "200") {
+            this.value = !this.value;
+            console.log(res.data.msg);
+          } else {
+            console.log("更改成功！");
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error.data);
+          this.value = !this.value;
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
+  }
 };
 </script>
 <style scoped>

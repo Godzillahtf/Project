@@ -1,16 +1,13 @@
 <template>
   <div id="shadow1" style="text-align:center">
-    <el-switch v-model="value" active-text="开启" inactive-text="关闭">
-    </el-switch>
+    <el-switch v-model="value" active-text="开启" inactive-text="关闭" @change="changeValue"></el-switch>
     <div class="message">
       <img src="../../assets/shadow.jpg" />
       <div class="messageText">
         <h3>镜头遮蔽开启时：</h3>
         <p>设备会将摄像头的镜头盖放下，同时关闭监控功能</p>
         <h3>镜头遮蔽关闭时：</h3>
-        <p>
-          设备进入正常监控状态
-        </p>
+        <p>设备进入正常监控状态</p>
       </div>
     </div>
   </div>
@@ -23,7 +20,56 @@ export default {
       value: true
     };
   },
-  methods: {}
+  methods: {
+    showMessage: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/scene/switch/status",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            this.value = res.data.data.enable == 1 ? true : false;
+          } else {
+            console.log(res.data.msg);
+            this.value = false;
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    changeValue: function() {
+      var value1 = this.value ? 1 : 0;
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/scene/switch/set",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          enable: value1
+        }
+      })
+        .then(res => {
+          if (res.data.code != "200") {
+            this.value = !this.value;
+            console.log(res.data.msg);
+          } else {
+            console.log("更改成功！");
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error.data);
+          this.value = !this.value;
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
+  }
 };
 </script>
 <style scoped>

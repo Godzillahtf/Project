@@ -25,8 +25,8 @@ export default {
         url: "https://open.ys7.com/api/lapp/device/capture",
         method: "post",
         params: {
-          accessToken: this.AllaccessToken,
-          deviceSerial: this.AlldeviceSerial,
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
           channelNo: 1
         }
       }).then(res => {

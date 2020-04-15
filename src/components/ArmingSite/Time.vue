@@ -1,16 +1,11 @@
 <template>
   <div id="time1">
-    <el-form
-      label-position="left"
-      label-width="200px"
-      size="mini"
-      :model="formLabelAlign"
-    >
+    <el-form label-position="left" label-width="200px" size="mini" :model="formLabelAlign">
       <el-form-item label="布防日期">
         <el-select
           v-model="formLabelAlign.week"
           multiple
-          placeholder="请选择一周有几天布防"
+          placeholder="请选择一周有哪几天布防"
           style="width:550px;"
         >
           <el-option
@@ -18,24 +13,35 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="起始时间">
-        <el-time-picker
+      <el-form-item label="开始时间">
+        <el-time-select
           is-range
-          v-model="formLabelAlign.time"
-          range-separator="至"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-          placeholder="选择时间范围"
+          v-model="formLabelAlign.startTime"
           style="width:550px;"
-        >
-        </el-time-picker>
+          :picker-options="{
+          start: '00:00',
+          step: '00:15',
+          end: '24:00'
+          }"
+        ></el-time-select>
+      </el-form-item>
+      <el-form-item label="结束时间">
+        <el-time-select
+          is-range
+          v-model="formLabelAlign.stopTime"
+          style="width:550px;"
+          :picker-options="{
+          start: '00:00',
+          step: '00:15',
+          end: '24:00'
+          }"
+        ></el-time-select>
       </el-form-item>
       <el-form-item style="text-align:left">
-        <el-button type="primary">保存</el-button>
+        <el-button type="primary" @click="changeValue">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -46,8 +52,9 @@ export default {
   data() {
     return {
       formLabelAlign: {
-        week: "",
-        time: ""
+        week: [1, 2],
+        startTime: "",
+        stopTime: ""
       },
       options: [
         {
@@ -81,7 +88,78 @@ export default {
       ]
     };
   },
-  methods: {}
+  methods: {
+    showDate(date) {
+      if (date == "n00:00") return "24:00";
+      else return date;
+    },
+    unshowDate(date) {
+      if (date == "24:00") return "n00:00";
+      else return date;
+    },
+    showMessage: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/defence/plan/get",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            var arr = res.data.data.period.split(",").map(Number);
+            this.formLabelAlign.week = arr;
+            this.formLabelAlign.startTime = this.$options.methods.showDate(
+              res.data.data.startTime
+            );
+            this.formLabelAlign.stopTime = this.$options.methods.showDate(
+              res.data.data.stopTime
+            );
+          } else {
+            console.log(res.data.msg);
+            this.value = false;
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    changeValue: function() {
+      if (this.formLabelAlign.startTime < this.formLabelAlign.stopTime) {
+        this.$axios({
+          url: "https://open.ys7.com/api/lapp/device/defence/plan/set",
+          method: "post",
+          params: {
+            accessToken: this.defined.accessToken,
+            deviceSerial: this.defined.deviceSerial,
+            startTime: this.$options.methods.unshowDate(
+              this.formLabelAlign.startTime
+            ),
+            stopTime: this.$options.methods.unshowDate(
+              this.formLabelAlign.stopTime
+            ),
+            period: this.formLabelAlign.week.join(",")
+          }
+        })
+          .then(res => {
+            if (res.data.code != "200") {
+              this.value = !this.value;
+              console.log(res.data.msg);
+            } else {
+              console.log("更改成功！");
+            }
+          })
+          .catch(error => {
+            console.log("err+++++", error.data);
+            this.value = !this.value;
+          });
+      } else console.log("结束时间不能小于等于开始时间！");
+    }
+  },
+  mounted: function() {
+    this.showMessage();
+  }
 };
 </script>
 <style scoped></style>

@@ -6,11 +6,10 @@ import router from "./router";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import axios from "axios";
+import defined from "./defined.js";
 
 Vue.prototype.$axios = axios;
-Vue.prototype.AllaccessToken =
-  "at.0te0pvhwd0onfqu7bhoegn9u0zu9wv3v-1la06dh8ja-12fyh6i-x02vs3gxg";
-Vue.prototype.AlldeviceSerial = "E12366153";
+Vue.prototype.defined = defined;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 /* eslint-disable no-new */

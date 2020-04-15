@@ -139,15 +139,7 @@ export default {
         },
         {
           value: "6",
-          label: "相机控制"
-        },
-        {
-          value: "7",
           label: "地图配置"
-        },
-        {
-          value: "8",
-          label: "设备抓图"
         }
       ]
     };

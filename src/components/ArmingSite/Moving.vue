@@ -1,19 +1,16 @@
 <template>
   <div id="moving" style="text-align:center">
-    <el-slider v-model="value" style="width:90%;margin-left:20px;"></el-slider>
+    <el-slider v-model="value" :min="0" :max="6" show-input style="width:90%;margin-left:20px;"></el-slider>
     <div class="message">
       <div class="left">
-        <i
-          class="el-icon-s-help"
-          v-bind:style="{ fontSize: 150 - value + 'px' }"
-        ></i>
+        <i class="el-icon-s-help" v-bind:style="{ fontSize: value*100/6+30 + 'px' }"></i>
       </div>
       <div class="right">
         <h3>灵敏度说明：</h3>
         <p>当检测到圆形大小以上的物体，会报警，值越大越灵敏</p>
       </div>
     </div>
-    <el-button type="primary">保存</el-button>
+    <el-button type="primary" @click="changeValue">保存</el-button>
   </div>
 </template>
 <script>
@@ -21,10 +18,60 @@ export default {
   name: "moving",
   data() {
     return {
-      value: ""
+      value: 0,
+      value1: 0
     };
   },
-  methods: {}
+  methods: {
+    showMessage: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/algorithm/config/get",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            this.value = Number(res.data.data[0].value);
+            this.value1 = Number(res.data.data[0].value);
+          } else {
+            console.log(res.data.msg);
+            this.value = 0;
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    changeValue: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/algorithm/config/set",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          value: this.value
+        }
+      })
+        .then(res => {
+          if (res.data.code != "200") {
+            this.value = this.value1;
+            console.log(res.data.msg);
+          } else {
+            console.log("更改成功！");
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error.data);
+          this.value = this.value1;
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
+  }
 };
 </script>
 <style scoped>
