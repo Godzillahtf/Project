@@ -1,28 +1,14 @@
 <template>
   <div id="version">
-    <el-form
-      label-position="left"
-      label-width="150px"
-      size="mini"
-      :model="formLabelAlign"
-    >
+    <el-form label-position="left" label-width="150px" size="mini" :model="formLabelAlign">
       <el-form-item label="最新版本">
-        <el-input
-          v-model="formLabelAlign.newVersion"
-          readonly="readonly"
-        ></el-input>
+        <el-input v-model="formLabelAlign.newVersion" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="当前版本">
-        <el-input
-          v-model="formLabelAlign.nowVersion"
-          readonly="readonly"
-        ></el-input>
+        <el-input v-model="formLabelAlign.nowVersion" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="是否需要升级">
-        <el-input
-          v-model="formLabelAlign.needRemove"
-          readonly="readonly"
-        ></el-input>
+        <el-input v-model="formLabelAlign.needRemove" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item style="text-align:right">
         <el-button type="primary">升级</el-button>
@@ -36,11 +22,39 @@ export default {
   data() {
     return {
       formLabelAlign: {
-        newVersion: "V5.5.80 build 180911",
-        nowVersion: "V5.5.80 build 180911",
-        needRemove: "否"
+        newVersion: "",
+        nowVersion: "",
+        needRemove: ""
       }
     };
+  },
+  methods: {
+    showMessage: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/version/info",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            this.formLabelAlign.newVersion = res.data.data.latestVersion;
+            this.formLabelAlign.nowVersion = res.data.data.currentVersion;
+            this.formLabelAlign.needRemove =
+              res.data.data.isNeedUpgrade == 0 ? "不需要" : "需要";
+          } else {
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
   }
 };
 </script>

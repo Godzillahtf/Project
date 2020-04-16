@@ -22,9 +22,9 @@
       <el-tab-pane label="设备恢复" name="seventh">
         <RemoveMaintain />
       </el-tab-pane>
-      <el-tab-pane label="流量信息" name="eigth">
+      <!-- <el-tab-pane label="流量信息" name="eigth">
         <Flow />
-      </el-tab-pane>
+      </el-tab-pane>-->
     </el-tabs>
   </div>
 </template>
@@ -36,7 +36,7 @@ import Status from "../components/DeviceSite/Status";
 import TimeSite from "../components/DeviceSite/TimeSite";
 import XiaShiLing from "../components/DeviceSite/XiaShiLing";
 import RemoveMaintain from "../components/DeviceSite/RemoveMaintain";
-import Flow from "../components/DeviceSite/Flow";
+// import Flow from "../components/DeviceSite/Flow";
 
 export default {
   name: "deviceSite",
@@ -47,8 +47,8 @@ export default {
     Status,
     TimeSite,
     XiaShiLing,
-    RemoveMaintain,
-    Flow
+    RemoveMaintain
+    // Flow
   },
   data() {
     return { activeName: "first" };

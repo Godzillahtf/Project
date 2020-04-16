@@ -1,55 +1,55 @@
 <template>
   <div id="basicMessage">
-    <el-form
-      label-position="left"
-      label-width="150px"
-      size="mini"
-      :model="formLabelAlign"
-    >
+    <el-form label-position="left" label-width="150px" size="mini" :model="formLabelAlign">
       <el-form-item label="设备序列号">
-        <el-input v-model="formLabelAlign.deviceSerial"></el-input>
+        <el-input v-model="formLabelAlign.deviceSerial" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="设备名称">
-        <el-input v-model="formLabelAlign.deviceName"></el-input>
+        <el-input v-model="formLabelAlign.deviceName" @blur="setDeciveName"></el-input>
       </el-form-item>
       <el-form-item label="设备型号">
         <el-input v-model="formLabelAlign.model" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="在线状态">
-        <el-input
-          v-model="formLabelAlign.status"
-          readonly="readonly"
-        ></el-input>
+        <el-input v-model="formLabelAlign.status" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="布防状态">
-        <el-input
-          v-model="formLabelAlign.defence"
-          readonly="readonly"
-        ></el-input>
+        <el-select v-model="formLabelAlign.defence" :style="style" @change="setDefence">
+          <el-option
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="是否加密">
-        <el-input
-          v-model="formLabelAlign.isEncrypt"
-          readonly="readonly"
-        ></el-input>
+        <el-input v-model="formLabelAlign.isEncrypt" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="告警声音模式">
-        <el-input
-          v-model="formLabelAlign.alarmSoundMode"
-          readonly="readonly"
-        ></el-input>
+        <el-select v-model="formLabelAlign.alarmSoundMode" :style="style" @change="setSoundMode">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            alarmSoundMode
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="设备下线是否通知">
-        <el-input
-          v-model="formLabelAlign.offlineNotify"
-          readonly="readonly"
-        ></el-input>
+        <el-select v-model="formLabelAlign.offlineNotify" :style="style" @change="setOfflineNotify">
+          <el-option
+            v-for="item in options3"
+            :key="item.value"
+            alarmSoundMode
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="设备大类">
-        <el-input
-          v-model="formLabelAlign.category"
-          readonly="readonly"
-        ></el-input>
+        <el-input v-model="formLabelAlign.category" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item style="text-align:right">
         <el-button type="primary">保存</el-button>
@@ -63,17 +63,183 @@ export default {
   data() {
     return {
       formLabelAlign: {
-        deviceSerial: "E12366153",
-        deviceName: "deviceName",
-        model: "CS123456",
-        status: "在线",
-        defence: "布防",
-        isEncrypt: "加密",
-        alarmSoundMode: "短叫",
-        offlineNotify: "通知",
-        category: "无线摄像头"
-      }
+        deviceSerial: "",
+        deviceName: "",
+        model: "",
+        status: "",
+        defence: "",
+        isEncrypt: "",
+        alarmSoundMode: "",
+        offlineNotify: "",
+        category: ""
+      },
+      deviceName: "",
+      defence: "",
+      alarmSoundMode: "",
+      offlineNotify: "",
+      style: "width:500px;",
+      options1: [
+        {
+          value: 1,
+          label: "布防"
+        },
+        {
+          value: 0,
+          label: "撤防"
+        }
+      ],
+      options2: [
+        {
+          value: 1,
+          label: "长叫"
+        },
+        {
+          value: 0,
+          label: "短叫"
+        },
+        {
+          value: 2,
+          label: "静音"
+        }
+      ],
+      options3: [
+        {
+          value: 1,
+          label: "通知"
+        },
+        {
+          value: 0,
+          label: "不通知"
+        }
+      ]
     };
+  },
+  methods: {
+    showMessage: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/info",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            this.formLabelAlign.deviceSerial = res.data.data.deviceSerial;
+            this.formLabelAlign.deviceName = res.data.data.deviceName;
+            this.formLabelAlign.model = res.data.data.model;
+            this.formLabelAlign.status =
+              res.data.data.status == 1 ? "在线" : "不在线";
+            this.formLabelAlign.defence = res.data.data.defence;
+            this.formLabelAlign.isEncrypt =
+              res.data.data.isEncrypt == 1 ? "加密" : "不加密";
+            this.formLabelAlign.alarmSoundMode = res.data.data.alarmSoundMode;
+            this.formLabelAlign.offlineNotify = res.data.data.offlineNotify;
+            this.formLabelAlign.category = res.data.data.category;
+          } else {
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    setDeciveName: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/name/update",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          deviceName: this.formLabelAlign.deviceName
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            console.log("设备名修改成功");
+          } else {
+            this.formLabelAlign.deviceName = this.deviceName;
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          this.formLabelAlign.deviceName = this.deviceName;
+          console.log("err+++++", error);
+        });
+    },
+    setDefence: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/defence/set",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          isDefence: this.formLabelAlign.defence
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            console.log("布撤防修改成功");
+          } else {
+            this.formLabelAlign.defence = this.defence;
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          this.formLabelAlign.defence = this.defence;
+          console.log("err+++++", error);
+        });
+    },
+    setSoundMode: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/alarm/sound/set",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          type: this.formLabelAlign.alarmSoundMode
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            console.log("告警模式修改成功");
+          } else {
+            this.formLabelAlign.alarmSoundMode = this.alarmSoundMode;
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          this.formLabelAlign.defence = this.defence;
+          console.log("err+++++", error);
+        });
+    },
+    setOfflineNotify: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/notify/switch",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          enable: this.formLabelAlign.offlineNotify
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            console.log("下线通知修改成功");
+          } else {
+            this.formLabelAlign.offlineNotify = this.offlineNotify;
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          this.formLabelAlign.offlineNotify = this.offlineNotify;
+          console.log("err+++++", error);
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
   }
 };
 </script>

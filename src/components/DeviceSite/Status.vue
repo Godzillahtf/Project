@@ -2,15 +2,15 @@
   <div id="status">
     <el-form label-position="left" label-width="150px" size="mini" :model="formLabelAlign">
       <el-form-item label="隐私状态">
-        <el-input v-model="formLabelAlign.privacyStatus"></el-input>
+        <el-input v-model="formLabelAlign.privacyStatus" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="红外状态">
-        <el-input v-model="formLabelAlign.pirStatus"></el-input>
+        <el-input v-model="formLabelAlign.pirStatus" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="告警声音模式">
         <el-input v-model="formLabelAlign.alarmSoundMode" readonly="readonly"></el-input>
       </el-form-item>
-      <el-form-item label="电池电量">
+      <el-form-item label="电池电量(%)">
         <el-input v-model="formLabelAlign.battryStatus" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="硬盘数量">
@@ -31,14 +31,62 @@ export default {
   data() {
     return {
       formLabelAlign: {
-        privacyStatus: "打开",
-        pirStatus: "启用",
-        alarmSoundMode: "静音",
-        battryStatus: "99",
-        diskNum: "1",
-        cloudStatus: "设备不支持"
+        privacyStatus: "",
+        pirStatus: "",
+        alarmSoundMode: "",
+        battryStatus: "",
+        diskNum: "",
+        cloudStatus: ""
       }
     };
+  },
+  methods: {
+    showaLarmSoundMode: function(a) {
+      switch (a) {
+        case 0:
+          return "短叫";
+        case 1:
+          return "长叫";
+        case 2:
+          return "静音";
+      }
+    },
+    showMessage: function() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/status/get",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            this.formLabelAlign.privacyStatus =
+              res.data.data.privacyStatus == 0 ? "关闭" : "打开";
+            this.formLabelAlign.pirStatus =
+              res.data.data.pirStatus == 1 ? "启用" : "关闭";
+            this.formLabelAlign.alarmSoundMode = this.$options.methods.showaLarmSoundMode(
+              res.data.data.alarmSoundMode
+            );
+            this.formLabelAlign.battryStatus =
+              res.data.data.battryStatus == -1
+                ? "设备没有电池"
+                : res.data.data.battryStatus;
+            this.formLabelAlign.diskNum = res.data.data.diskNum;
+            this.formLabelAlign.cloudStatus =
+              res.data.data.cloudStatus == 1 ? "激活" : "未激活";
+          } else {
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
   }
 };
 </script>
