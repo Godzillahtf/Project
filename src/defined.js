@@ -3,16 +3,40 @@ export default {
     "at.0te0pvhwd0onfqu7bhoegn9u0zu9wv3v-1la06dh8ja-12fyh6i-x02vs3gxg",
   deviceSerial: "E12366153",
   validateCode: "AFNEVA",
-  /**用户Token */
-  setToken(accessToken) {
-    this.accessToken = accessToken;
+  userName: "",
+  userId: "",
+  userOnline: false,
+  auth: {
+    localConfig: 0,
+    id: 0,
+    userId: 0,
+    systemConfig: 0,
+    defenceConfig: 0,
+    deviceConfig: 0,
+    groupConfig: 0,
+    mapConfig: 0,
+    accountManage: 0
   },
-  /***设备序列号 */
-  setSerial(deviceSerial) {
-    this.deviceSerial = deviceSerial;
-  },
-  /*** 设备验证码*/
-  setCode(validateCode) {
-    this.validateCode = validateCode;
-  }
+  serviceURL: "http://127.0.0.1:9090"
+  // /**用户Token */
+  // setToken(accessToken) {
+  //   this.accessToken = accessToken;
+  // },
+  // /***设备序列号 */
+  // setSerial(deviceSerial) {
+  //   this.deviceSerial = deviceSerial;
+  // },
+  // /*** 设备验证码*/
+  // setCode(validateCode) {
+  //   this.validateCode = validateCode;
+  // },
+  // /****用户名 */
+  // setUserName(userName) {
+  //   this.userName = userName;
+  // },
+  // /***用户ID */
+  // setUserId(userId) {
+  //   this.userId = userId;
+  // }
+  // /***用户权限 */
 };

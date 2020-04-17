@@ -27,8 +27,12 @@
         <label class="iconfont icon-yanzhengma54" for="captcha-input"></label>
         <input type="text" id="captcha-input" v-model="captcha" placeholder="验证码" />
       </div>
+      <div class="username-div">
+        <label class="iconfont icon-yanzhengma54" for="captcha-input"></label>
+        <input type="text" id="captcha-input" v-model="accessToken" placeholder="用户Token" />
+      </div>
       <div class="loginbtn">
-        <input type="button" value="注册" @click="login" />
+        <input type="button" value="注册" @click="signUp" />
       </div>
 
       <router-link to="/">
@@ -49,21 +53,46 @@ export default {
       password2: "",
       captcha: "",
       message: "",
+      accessToken: "",
       isPassword1: true,
       isPassword2: true
     };
   },
   methods: {
-    login: function() {
+    signUp: function() {
       if (this.username == "") {
         this.message = "用户名不能为空！";
       } else if (this.password == "") {
         this.message = "密码不能为空";
       } else if (this.captcha == "") {
         this.message = "验证码不能为空";
+      } else if (this.accessToken == "") {
+        this.message = "请去萤石官网获取用户Token";
       } else if (this.password1 !== this.password2) {
         this.message = "两次输入密码不一致";
-      } else this.message = "";
+      } else {
+        this.$axios({
+          url: this.defined.serviceURL + "/register",
+          method: "post",
+          data: {
+            accessToken: this.accessToken,
+            authCode: this.captcha,
+            userName: this.username,
+            password: this.password1,
+            passwordAgain: this.password2
+          }
+        })
+          .then(res => {
+            if (res.data.code == 0) {
+              console.log("注册成功");
+              this.$router.push({ path: "/" });
+            } else if (res.data.code == 1) console.log("两次密码不一致");
+            else if (res.data.code == 2) console.log("已经存在的用户名");
+          })
+          .catch(error => {
+            console.log("err+++++", error);
+          });
+      }
     },
     showPassword1: function() {
       this.isPassword1 = !this.isPassword1;
@@ -102,7 +131,7 @@ export default {
 #loginForm {
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.3);
-  height: 400px;
+  height: 450px;
   width: 400px;
   margin: 0px auto;
   box-shadow: 0 0 5px black;

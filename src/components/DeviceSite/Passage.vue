@@ -43,7 +43,7 @@
         <el-input v-model="formLabelAlign.relatedIpc" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item style="text-align:right">
-        <el-button type="primary">保存</el-button>
+        <el-button type="primary" @click="changeMessage">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -179,20 +179,34 @@ export default {
           this.formLabelAlign.isEncrypt = this.isEncrypt;
           console.log("err+++++", error);
         });
+    },
+    changeMessage: function() {
+      this.$axios({
+        url: this.defined.serviceURL + "/updateChannelConfig",
+        method: "post",
+        data: {
+          deviceSerial: this.formLabelAlign.deviceSerial,
+          ipcSerial: this.formLabelAlign.ipcSerial,
+          channelNo: this.formLabelAlign.channelNo,
+          deviceName: this.formLabelAlign.deviceName,
+          channelName: this.formLabelAlign.channelName,
+          status: this.formLabelAlign.status === "在线" ? 1 : 0,
+          isShared: "0",
+          picUrl: "https://portal.ys7.com/assets/imgs/public/homeDevice.jpeg",
+          isEncrypt: this.formLabelAlign.isEncrypt,
+          videoLevel: this.formLabelAlign.videoLevel,
+          relatedIpc: this.formLabelAlign.relatedIpc === "是" ? 1 : 0,
+          userId: this.defined.userId
+        }
+      })
+        .then(res => {
+          if (res.data.code == 0) console.log("保存成功");
+          else console.log("保存失败！");
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
     }
-    // changeMessage: function() {
-    //   this.$axios
-    //     .all([
-    //       this.$options.methods.setChannelName(),
-    //       this.$options.methods.setIsEncrypt()
-    //     ])
-    //     .then(
-    //       axios.spread(function(acct, perms) {
-    //         console.log("acct  is++", acct);
-    //         console.log("perms is ++ ", perms);
-    //       })
-    //     );
-    // }
   },
   mounted: function() {
     this.showMessage();

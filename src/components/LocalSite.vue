@@ -1,11 +1,6 @@
 <template>
   <div id="localSite">
-    <el-form
-      label-position="left"
-      label-width="200px"
-      size="mini"
-      :model="formLabelAlign"
-    >
+    <el-form label-position="left" label-width="200px" size="mini" :model="formLabelAlign">
       <el-form-item label="协议类型">
         <el-select v-model="formLabelAlign.protocolType" :style="style">
           <el-option
@@ -17,12 +12,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="播放性能">
-        <el-select
-          v-model="formLabelAlign.playPerformance"
-          :style="style"
-          allow-create
-          filterable
-        >
+        <el-select v-model="formLabelAlign.playPerformance" :style="style" allow-create filterable>
           <el-option
             v-for="item in options2"
             :key="item.value"
@@ -62,7 +52,7 @@
         </el-select>
       </el-form-item>
       <el-form-item style="text-align:right">
-        <el-button type="primary">保存</el-button>
+        <el-button type="primary" @click="changeMessage">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -74,13 +64,14 @@ export default {
   data() {
     return {
       formLabelAlign: {
-        protocolType: "TCP",
-        playPerformance: "short",
-        pictureType: "JPEG",
-        ruleInformation: "on",
-        POS: "on"
+        protocolType: "",
+        playPerformance: "",
+        pictureType: "",
+        ruleInformation: "",
+        POS: ""
       },
       style: "width:450px",
+      localId: "",
       options1: [
         {
           value: "TCP",
@@ -136,7 +127,53 @@ export default {
       options5: ["256M", "512M", "1G"]
     };
   },
-  methods: {}
+  methods: {
+    showMessage: function() {
+      this.$axios({
+        url: this.defined.serviceURL + "/getLocalConfig",
+        method: "post",
+        data: {
+          userId: this.defined.userId
+        }
+      })
+        .then(res => {
+          console.log(res.data.config);
+          this.formLabelAlign.protocolType = res.data.config.protocolType;
+          this.formLabelAlign.playPerformance = res.data.config.playPerformance;
+          this.formLabelAlign.pictureType = res.data.config.fileFormat;
+          this.formLabelAlign.ruleInformation = res.data.config.ruleMsg;
+          this.formLabelAlign.POS = res.data.config.posMsg;
+          this.localId = res.data.config.id;
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    changeMessage: function() {
+      this.$axios({
+        url: this.defined.serviceURL + "/updateLocalConfig",
+        method: "post",
+        data: {
+          id: this.localId,
+          protocolType: this.formLabelAlign.protocolType,
+          playPerformance: this.formLabelAlign.playPerformance,
+          fileFormat: this.formLabelAlign.pictureType,
+          ruleMsg: this.formLabelAlign.ruleInformation,
+          posMsg: this.formLabelAlign.POS
+        }
+      })
+        .then(res => {
+          if (res.data.code == 0) console.log("保存成功");
+          else console.log("保存失败！");
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    }
+  },
+  mounted: function() {
+    this.showMessage();
+  }
 };
 </script>
 <style scoped>

@@ -63,7 +63,27 @@ export default {
         this.message = "验证码不能为空";
       } else if (this.password1 !== this.password2) {
         this.message = "两次输入密码不一致";
-      } else this.message = "";
+      } else {
+        this.$axios({
+          url: this.defined.serviceURL + "/forgetpswd",
+          method: "post",
+          data: {
+            authCode: this.captcha,
+            userName: this.username,
+            password: this.password1,
+            passwordAgain: this.password2
+          }
+        })
+          .then(res => {
+            if (res.data.code == 0) {
+              console.log("修改成功");
+              this.$router.push({ path: "/" });
+            } else if (res.data.code == 1) console.log("修改失败");
+          })
+          .catch(error => {
+            console.log("err+++++", error);
+          });
+      }
     },
     showPassword1: function() {
       this.isPassword1 = !this.isPassword1;

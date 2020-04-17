@@ -46,8 +46,38 @@ export default {
         this.message = "用户名不能为空！";
       } else if (this.password == "") {
         this.message = "密码不能为空";
-      } else this.message = "";
-      this.$router.push({ path: "/index/" + this.username });
+      } else {
+        this.$axios({
+          url: this.defined.serviceURL + "/login",
+          method: "post",
+          data: {
+            userName: this.username,
+            password: this.password
+          }
+        })
+          .then(res => {
+            if (res.data.code == 0) {
+              console.log("登录成功");
+              this.defined.userId = res.data.userId;
+              this.defined.accessToken = res.data.accessToken;
+              this.defined.userName = this.username;
+              this.defined.userOnline = true;
+              this.$axios({
+                url: this.defined.serviceURL + "/getAuth",
+                method: "post",
+                data: {
+                  userId: this.defined.userId
+                }
+              }).then(res => {
+                this.defined.auth = res.data.auth;
+              });
+              this.$router.push({ path: "/index/" + this.username });
+            } else if (res.data.code == 1) console.log("用户名或密码不正确");
+          })
+          .catch(error => {
+            console.log("err+++++", error);
+          });
+      }
     },
     showPassword: function() {
       this.isPassword = !this.isPassword;

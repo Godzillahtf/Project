@@ -52,7 +52,7 @@
         <el-input v-model="formLabelAlign.category" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item style="text-align:right">
-        <el-button type="primary">保存</el-button>
+        <el-button type="primary" @click="changeMessage">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -234,6 +234,31 @@ export default {
         })
         .catch(error => {
           this.formLabelAlign.offlineNotify = this.offlineNotify;
+          console.log("err+++++", error);
+        });
+    },
+    changeMessage: function() {
+      this.$axios({
+        url: this.defined.serviceURL + "/updateBaseConfig",
+        method: "post",
+        data: {
+          deviceSerial: this.formLabelAlign.deviceSerial,
+          deviceName: this.formLabelAlign.deviceName,
+          model: this.formLabelAlign.model,
+          defence: this.formLabelAlign.defence,
+          status: this.formLabelAlign.status === "在线" ? 1 : 0,
+          isEncrypt: this.formLabelAlign.isEncrypt === "加密" ? 1 : 0,
+          alarmSoundMode: this.formLabelAlign.alarmSoundMode,
+          offlineNotify: this.formLabelAlign.offlineNotify,
+          category: this.formLabelAlign.category,
+          userId: this.defined.userId
+        }
+      })
+        .then(res => {
+          if (res.data.code == 0) console.log("保存成功");
+          else console.log("保存失败！");
+        })
+        .catch(error => {
           console.log("err+++++", error);
         });
     }

@@ -24,13 +24,7 @@ export default {
   name: "removeMaintain",
   data() {
     return {
-      formLabelAlign: {
-        RTSPAttest: "digest",
-        WEBAttest: "digest"
-      },
-      style: "width:150px",
-      options1: ["digest", "digest/basic"],
-      options2: ["digest", "digest/basic"]
+      style: "width:150px"
     };
   }
 };

@@ -20,7 +20,7 @@
         <el-input v-model="formLabelAlign.cloudStatus" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item style="text-align:right">
-        <el-button type="primary">保存</el-button>
+        <el-button type="primary" @click="changeMessage">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -51,6 +51,11 @@ export default {
           return "静音";
       }
     },
+    unShowLarmSoundMode: function(a) {
+      if (a === "短叫") return 0;
+      else if (a === "长叫") return 1;
+      else return 2;
+    },
     showMessage: function() {
       this.$axios({
         url: "https://open.ys7.com/api/lapp/device/status/get",
@@ -79,6 +84,33 @@ export default {
           } else {
             console.log(res.data.msg);
           }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    changeMessage: function() {
+      this.$axios({
+        url: this.defined.serviceURL + "/updateStatusConfig",
+        method: "post",
+        data: {
+          privacyStatus: this.formLabelAlign.privacyStatus === "关闭" ? 0 : 1,
+          pirStatus: this.formLabelAlign.pirStatus === "启用" ? 1 : 0,
+          battryStatus:
+            this.formLabelAlign.battryStatus === "设备没有电池"
+              ? -1
+              : this.formLabelAlign.battryStatus,
+          diskNum: this.formLabelAlign.diskNum,
+          cloudStatus: this.formLabelAlign.cloudStatus === "激活" ? 1 : 0,
+          alarmSoundMode: this.$options.methods.unShowLarmSoundMode(
+            this.formLabelAlign.alarmSoundMode
+          ),
+          userId: this.defined.userId
+        }
+      })
+        .then(res => {
+          if (res.data.code == 0) console.log("保存成功");
+          else console.log("保存失败！");
         })
         .catch(error => {
           console.log("err+++++", error);

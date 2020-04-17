@@ -14,7 +14,7 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      username: "admin"
+      username: this.defined.userName
     };
   },
   methods: {
