@@ -42,8 +42,10 @@ export default {
         }
       })
         .then(res => {
-          this.formLabelAlign.RTSPAttest = res.data.config.rtspProof;
-          this.formLabelAlign.WEBAttest = res.data.config.webProof;
+          this.formLabelAlign.RTSPAttest =
+            res.data.config.rtspProof == 1 ? "digest" : "digest / basic";
+          this.formLabelAlign.WEBAttest =
+            res.data.config.webProof == 1 ? "digest" : "digest / basic";
           this.proofId = res.data.config.id;
         })
         .catch(error => {
@@ -56,8 +58,9 @@ export default {
         method: "post",
         data: {
           id: this.proofId,
-          rtspProof: this.formLabelAlign.RTSPAttest,
-          webProof: this.formLabelAlign.WEBAttest
+          rtspProof: this.formLabelAlign.RTSPAttest == "digest" ? 1 : 2,
+          webProof: this.formLabelAlign.WEBAttest == "digest" ? 1 : 2,
+          deviceSerial: this.defined.deviceSerial
         }
       })
         .then(res => {

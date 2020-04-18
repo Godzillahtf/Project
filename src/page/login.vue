@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     login: function() {
+      // this.$router.push({ path: "/index/admin" });
       if (this.username == "") {
         this.message = "用户名不能为空！";
       } else if (this.password == "") {

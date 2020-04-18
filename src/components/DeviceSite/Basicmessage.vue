@@ -255,8 +255,9 @@ export default {
         }
       })
         .then(res => {
-          if (res.data.code == 0) console.log("保存成功");
-          else console.log("保存失败！");
+          if (res.data.code == 0) {
+            console.log("保存成功");
+          } else console.log("保存失败！");
         })
         .catch(error => {
           console.log("err+++++", error);

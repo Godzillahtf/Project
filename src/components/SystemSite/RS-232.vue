@@ -73,35 +73,35 @@ export default {
       options4: [
         {
           label: "无",
-          value: "none"
+          value: 0
         },
         {
           label: "奇校验",
-          value: "odd"
+          value: 1
         },
         {
           label: "偶校验",
-          value: "even"
+          value: 2
         }
       ],
       options5: [
         {
           label: "无",
-          value: "none"
+          value: 0
         },
         {
           label: "软流控",
-          value: "soft"
+          value: 1
         }
       ],
       options6: [
         {
           label: "控制台(参数控制)",
-          value: "console"
+          value: 1
         },
         {
           label: "透明通道",
-          value: "openAisle"
+          value: 2
         }
       ]
     };
@@ -120,7 +120,7 @@ export default {
           this.formLabelAlign.dataBit = res.data.config.dataBit;
           this.formLabelAlign.stopBit = res.data.config.stopBit;
           this.formLabelAlign.check = res.data.config.checked;
-          this.formLabelAlign.flowControl = res.data.config.fluidControl;
+          this.formLabelAlign.flowControl = 1;
           this.formLabelAlign.controlMode = res.data.config.controlMode;
           this.RS232Id = res.data.config.id;
         })

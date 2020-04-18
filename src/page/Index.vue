@@ -104,10 +104,18 @@ export default {
   margin: 0;
   padding: 0;
 }
+/* #index {
+  background: url("../assets/123.jpg") center;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  position: fixed;
+  background-repeat: no-repeat;
+} */
 </style>
 <style>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 650px;
+  min-height: 680px;
 }
 </style>

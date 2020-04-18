@@ -105,7 +105,7 @@ export default {
           alarmSoundMode: this.$options.methods.unShowLarmSoundMode(
             this.formLabelAlign.alarmSoundMode
           ),
-          userId: this.defined.userId
+          deviceSerial: this.defined.deviceSerial
         }
       })
         .then(res => {

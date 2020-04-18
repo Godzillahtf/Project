@@ -7,7 +7,7 @@
       </div>
     </el-image>
     <el-button size="mini" @click="screenshot">抓取相机图片</el-button>
-    <el-button size="mini">下载图片</el-button>
+    <el-button size="mini" @click="downloadImg">下载图片</el-button>
   </div>
 </template>
 <script>
@@ -29,8 +29,35 @@ export default {
           deviceSerial: this.defined.deviceSerial,
           channelNo: 1
         }
-      }).then(res => {
-        this.url = res.data.data.picUrl;
+      })
+        .then(res => {
+          this.url = res.data.data.picUrl;
+        })
+        .catch(error => {
+          console.log("err++", error);
+        });
+    },
+    downloadImg: function() {
+      // var image = new Image();
+      // image.setAttribute("crossOrigin", "anonymous");
+      // image.onload = function() {
+      //   var canvas = document.createElement("canvas");
+      //   canvas.width = image.width;
+      //   canvas.height = image.height;
+      //   var context = canvas.getContext("2d");
+      //   context.drawImage(image, 0, 0, image.width, image.height);
+      //   var url = canvas.toDataURl("image/png");
+      //   var a = document.createElement("a");
+      //   var event = new MouseEvent("click");
+      //   a.download = this.url;
+      //   a.href = this.url;
+      //   a.dispatchEvent(event);
+      // };
+      // image.src = this.url;
+      console.log(this.url);
+      this.$axios({
+        url: this.url,
+        method: "get"
       });
     }
   }

@@ -2,7 +2,7 @@
   <div id="safetyService">
     <el-form label-position="left" label-width="80px">
       <el-form-item>
-        <el-checkbox v-model="checked">启用非法登录锁定</el-checkbox>
+        <el-checkbox v-model="checked" @change="changeMessage">启用非法登录锁定</el-checkbox>
       </el-form-item>
     </el-form>
   </div>
@@ -12,26 +12,23 @@ export default {
   name: "safetyService",
   data() {
     return {
-      checked: "true"
+      checked: false,
+      safeId: -1
     };
   },
   methods: {
     showMessage: function() {
       this.$axios({
-        url: this.defined.serviceURL + "/getRS232Config",
+        url: this.defined.serviceURL + "/getSafeConfig",
         method: "post",
         data: {
           userId: this.defined.userId
         }
       })
         .then(res => {
-          this.formLabelAlign.baudRate = res.data.config.baudRate;
-          this.formLabelAlign.dataBit = res.data.config.dataBit;
-          this.formLabelAlign.stopBit = res.data.config.stopBit;
-          this.formLabelAlign.check = res.data.config.checked;
-          this.formLabelAlign.flowControl = res.data.config.fluidControl;
-          this.formLabelAlign.controlMode = res.data.config.controlMode;
-          this.RS232Id = res.data.config.id;
+          // console.log(res.data.safe);
+          this.checked = res.data.safe.safeMode == 1 ? true : false;
+          this.safeId = res.data.safe.id;
         })
         .catch(error => {
           console.log("err+++++", error);
@@ -39,16 +36,11 @@ export default {
     },
     changeMessage: function() {
       this.$axios({
-        url: this.defined.serviceURL + "/updateRS232Config",
+        url: this.defined.serviceURL + "/updateSafeConfig",
         method: "post",
         data: {
-          id: this.RS232Id,
-          baudRate: this.formLabelAlign.baudRate,
-          dataBit: this.formLabelAlign.dataBit,
-          stopBit: this.formLabelAlign.stopBit,
-          checked: this.formLabelAlign.check,
-          fluidControl: this.formLabelAlign.flowControl,
-          controlMode: this.formLabelAlign.controlMode
+          userId: this.defined.userId,
+          safeMode: this.checked ? 1 : 0
         }
       })
         .then(res => {

@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="播放性能">
-        <el-select v-model="formLabelAlign.playPerformance" :style="style" allow-create filterable>
+        <el-select v-model="formLabelAlign.playPerformance" :style="style">
           <el-option
             v-for="item in options2"
             :key="item.value"
@@ -74,57 +74,56 @@ export default {
       localId: "",
       options1: [
         {
-          value: "TCP",
+          value: 1,
           label: "TCP"
         },
         {
-          value: "UDP",
+          value: 2,
           label: "UDP"
         },
         {
-          value: "MULTICAST",
+          value: 3,
           label: "MULTICAST"
         },
         {
-          value: "HTTP",
+          value: 4,
           label: "HTTP"
         }
       ],
       options2: [
         {
-          value: "short",
+          value: 1,
           label: "最短时延"
         },
         {
-          value: "long",
+          value: 2,
           label: "流畅性好"
         },
         {
-          value: "middle",
+          value: 3,
           label: "均衡"
         }
       ],
       options3: [
         {
-          value: "JPEG",
+          value: 1,
           label: "JPEG"
         },
         {
-          value: "BMP",
+          value: 2,
           label: "BMP"
         }
       ],
       options4: [
         {
-          value: "on",
+          value: 1,
           label: "开启"
         },
         {
-          value: "off",
+          value: 0,
           label: "关闭"
         }
-      ],
-      options5: ["256M", "512M", "1G"]
+      ]
     };
   },
   methods: {
@@ -137,7 +136,7 @@ export default {
         }
       })
         .then(res => {
-          console.log(res.data.config);
+          // console.log(res.data.config);
           this.formLabelAlign.protocolType = res.data.config.protocolType;
           this.formLabelAlign.playPerformance = res.data.config.playPerformance;
           this.formLabelAlign.pictureType = res.data.config.fileFormat;

@@ -1,11 +1,6 @@
 <template>
   <div id="CameraControl">
-    <el-form
-      label-position="left"
-      label-width="200px"
-      size="mini"
-      :model="formLabelAlign"
-    >
+    <el-form label-position="left" label-width="200px" size="mini" :model="formLabelAlign">
       <el-form-item label="移动方向">
         <el-select v-model="formLabelAlign.direction" :style="style">
           <el-option
@@ -27,9 +22,11 @@
         </el-select>
       </el-form-item>
       <el-form-item style="text-align:center">
-        <el-button type="primary" @click="start">{{
+        <el-button type="primary" @click="start">
+          {{
           isStart ? "停止" : "开始"
-        }}</el-button>
+          }}
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
