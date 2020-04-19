@@ -8,7 +8,11 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index,scope.row)">更改权限</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row,tableData)"
+            >删除</el-button>
             <el-dialog title="用户权限" :visible.sync="dialogFormVisible1" :append-to-body="true">
               <el-form :model="userAuthForm" label-position="left" label-width="100px">
                 <el-form-item label="用户权限">
@@ -138,7 +142,7 @@ export default {
         });
       this.dialogFormVisible1 = true;
     },
-    handleDelete(index, row) {
+    handleDelete(index, row, data) {
       this.$axios({
         url: this.defined.serviceURL + "/deleteSon",
         method: "post",
@@ -147,8 +151,8 @@ export default {
         }
       })
         .then(res => {
-          cnsole.log("删除成功！");
-          row.splice(index, 1);
+          console.log("删除成功！");
+          data.splice(index, 1);
         })
         .catch(error => {
           console.log("err++", error);
@@ -239,10 +243,13 @@ export default {
                   this.addUserForm.userAuthority.indexOf("6") > -1 ? 1 : 0
               }
             })
-              .then(res => {
+              .then(res1 => {
                 console.log("添加用户 权限成功");
+                this.tableData.push({
+                  userId: res.data.userId,
+                  userName: this.addUserForm.username
+                });
                 this.dialogFormVisible2 = false;
-                this.$options.methods.reFreshPage();
               })
               .catch(error => {
                 console.log("err++", error);
