@@ -1,9 +1,7 @@
 <template>
   <div id="header">
     <img src="../assets/logo.png" />
-    <router-link to="/">
-      <a @click="logout" class="iconfont icon-zhuxiaologout10">注销</a>
-    </router-link>
+    <a @click="logout" class="iconfont icon-zhuxiaologout10">注销</a>
     <a @click="help" class="iconfont icon-bangzhu">帮助</a>
     <a @click="user" class="iconfont icon-yonghu">{{username}}</a>
   </div>
@@ -19,7 +17,9 @@ export default {
   },
   methods: {
     logout: function() {
-      console.log("1312313");
+      this.defined.removeDefined();
+      console.log("注销成功");
+      this.$router.push({ path: "/" });
     },
     help: function() {},
     user: function() {}

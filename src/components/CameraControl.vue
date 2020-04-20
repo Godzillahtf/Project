@@ -1,6 +1,6 @@
 <template>
   <div id="CameraControl">
-    <el-form label-position="left" label-width="200px" size="mini" :model="formLabelAlign">
+    <el-form label-position="left" label-width="150px" size="mini" :model="formLabelAlign">
       <el-form-item label="移动方向">
         <el-select v-model="formLabelAlign.direction" :style="style">
           <el-option
@@ -20,13 +20,23 @@
             :value="item.value"
           ></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item style="text-align:center">
         <el-button type="primary" @click="start">
           {{
           isStart ? "停止" : "开始"
           }}
         </el-button>
+      </el-form-item>
+      <el-divider></el-divider>
+      <el-form-item label="镜像翻转">
+        <el-select v-model="formLabelAlign.mirror" :style="style" placeholder="选择对称方式">
+          <el-option
+            v-for="item in options3"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+        <el-button type="primary" @click="changeMirror">翻转</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -39,7 +49,8 @@ export default {
     return {
       formLabelAlign: {
         direction: 0,
-        speed: 0
+        speed: 0,
+        mirror: ""
       },
       style: "width:400px",
       isStart: false,
@@ -106,12 +117,92 @@ export default {
           value: 2,
           label: "快"
         }
+      ],
+      options3: [
+        {
+          value: 0,
+          label: "上下"
+        },
+        {
+          value: 1,
+          label: "左右"
+        },
+        {
+          value: 2,
+          label: "中心"
+        }
       ]
     };
   },
   methods: {
     start: function() {
-      this.isStart = !this.isStart;
+      if (this.isStart === false) {
+        this.$axios({
+          url: "https://open.ys7.com/api/lapp/device/ptz/start",
+          method: "post",
+          params: {
+            accessToken: this.defined.accessToken,
+            deviceSerial: this.defined.deviceSerial,
+            channelNo: 1,
+            direction: this.formLabelAlign.direction,
+            speed: this.formLabelAlign.speed
+          }
+        })
+          .then(res => {
+            if (res.data.code == "200") {
+              console.log("操作成功");
+              this.isStart = !this.isStart;
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch(error => {
+            console.log("err+++++", error);
+          });
+      } else {
+        this.$axios({
+          url: "https://open.ys7.com/api/lapp/device/ptz/stop",
+          method: "post",
+          params: {
+            accessToken: this.defined.accessToken,
+            deviceSerial: this.defined.deviceSerial,
+            channelNo: 1
+          }
+        })
+          .then(res => {
+            if (res.data.code == "200") {
+              console.log("操作成功");
+              this.isStart = !this.isStart;
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch(error => {
+            console.log("err+++++", error);
+          });
+      }
+    },
+    changeMirror() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/ptz/mirror",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial,
+          channelNo: 1,
+          command: this.formLabelAlign.mirror
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+            console.log("操作成功");
+          } else {
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
     }
   }
 };

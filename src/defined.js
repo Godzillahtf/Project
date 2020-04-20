@@ -16,7 +16,26 @@ export default {
     mapConfig: 0,
     accountManage: 0
   },
-  serviceURL: "http://127.0.0.1:9090"
+  serviceURL: "http://127.0.0.1:9090",
+  removeDefined() {
+    this.accessToken = "";
+    // this.deviceSerial = "";
+    // this.validateCode = "";
+    this.userName = "";
+    this.userId = "";
+    this.userOnline = false;
+    this.auth = {
+      localConfig: 0,
+      id: 0,
+      userId: 0,
+      systemConfig: 0,
+      defenceConfig: 0,
+      deviceConfig: 0,
+      groupConfig: 0,
+      mapConfig: 0,
+      accountManage: 0
+    };
+  }
   // /**用户Token */
   // setToken(accessToken) {
   //   this.accessToken = accessToken;

@@ -126,6 +126,11 @@ export default {
         });
     },
     changeValue: function() {
+      if (this.defined.auth.defenceConfig === 0) {
+        console.log("没有配置权限!");
+        this.value = !this.value;
+        return;
+      }
       if (this.formLabelAlign.startTime < this.formLabelAlign.stopTime) {
         this.$axios({
           url: "https://open.ys7.com/api/lapp/device/defence/plan/set",

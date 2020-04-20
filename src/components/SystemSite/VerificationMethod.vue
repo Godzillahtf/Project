@@ -53,6 +53,10 @@ export default {
         });
     },
     changeMessage: function() {
+      if (this.defined.auth.systemConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: this.defined.serviceURL + "/updateProofConfig",
         method: "post",

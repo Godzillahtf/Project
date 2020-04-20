@@ -244,7 +244,7 @@ export default {
     renderContent(h, { node, data, store }) {
       if (data.nodeType == 1)
         return (
-          <div class="custom-tree-node">
+          <span class="custom-tree-node">
             <span>{data.nodeName}</span>
             <span>
               <el-button
@@ -255,7 +255,7 @@ export default {
                 删除设备
               </el-button>
             </span>
-          </div>
+          </span>
         );
       else
         return (

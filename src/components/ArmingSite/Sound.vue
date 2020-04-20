@@ -1,6 +1,6 @@
 <template>
   <div id="sound" style="text-align:center">
-    <el-switch v-model="value" active-text="开启" inactive-text="关闭" @change="showMessage"></el-switch>
+    <el-switch v-model="value" active-text="开启" inactive-text="关闭" @change="changeValue"></el-switch>
     <div class="message">
       <img src="../../assets/sound.jpg" />
       <div class="messageText">
@@ -44,6 +44,11 @@ export default {
     },
     changeValue: function() {
       var value1 = this.value ? 1 : 0;
+      if (this.defined.auth.defenceConfig === 0) {
+        console.log("没有配置权限!");
+        this.value = !this.value;
+        return;
+      }
       this.$axios({
         url: "https://open.ys7.com/api/lapp/device/ssl/switch/set",
         method: "post",

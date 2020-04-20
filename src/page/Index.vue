@@ -40,7 +40,7 @@
             <i class="iconfont icon-tupian"></i>
             <span slot="title">设备抓图</span>
           </el-menu-item>
-          <el-menu-item index="User">
+          <el-menu-item index="User" v-if="userShow">
             <i class="iconfont icon-yonghu"></i>
             <span slot="title">账户管理</span>
           </el-menu-item>
@@ -84,7 +84,8 @@ export default {
   },
   data() {
     return {
-      componentName: "Live"
+      componentName: "Live",
+      userShow: this.defined.auth.accountManage === 0 ? false : true
     };
   },
   methods: {

@@ -44,6 +44,11 @@ export default {
     },
     changeValue: function() {
       var value1 = this.value ? 1 : 0;
+      if (this.defined.auth.defenceConfig === 0) {
+        console.log("没有配置权限!");
+        this.value = !this.value;
+        return;
+      }
       this.$axios({
         url: "https://open.ys7.com/api/lapp/camera/video/sound/set",
         method: "post",

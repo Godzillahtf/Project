@@ -11,9 +11,14 @@
         <el-input v-model="formLabelAlign.needRemove" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item style="text-align:right">
-        <el-button type="primary">升级</el-button>
+        <el-button type="primary" @click="upgrade">升级</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog title="升级进度" :visible.sync="dialogFormVisible" :append-to-body="true">
+      <el-form :model="upGradeForm" label-position="left" label-width="100px">
+        <el-progress type="circle" :percentage="upGradeForm.progress"></el-progress>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -25,6 +30,10 @@ export default {
         newVersion: "",
         nowVersion: "",
         needRemove: ""
+      },
+      dialogFormVisible: false,
+      upGradeForm: {
+        progress: 1
       }
     };
   },
@@ -51,6 +60,49 @@ export default {
         .catch(error => {
           console.log("err+++++", error);
         });
+    },
+    upgrade() {
+      if (this.formLabelAlign.needRemove === "不需要") {
+        console.log("不需要升级！");
+        return;
+      } else {
+        this.$axios({
+          url: "https://open.ys7.com/api/lapp/device/upgrade",
+          method: "post",
+          params: {
+            accessToken: this.defined.accessToken,
+            deviceSerial: this.defined.deviceSerial
+          }
+        })
+          .then(res => {
+            if (res.data.code == "200") {
+              this.dialogFormVisible = true;
+              this.$axios({
+                url: "https://open.ys7.com/api/lapp/device/upgrade/status",
+                method: "post",
+                params: {
+                  accessToken: this.defined.accessToken,
+                  deviceSerial: this.defined.deviceSerial
+                }
+              })
+                .then(res => {
+                  if (res.data.code == "200") {
+                    this.upGradeForm.progress = res.data.data.progress;
+                  } else {
+                    console.log(res.data.msg);
+                  }
+                })
+                .catch(error => {
+                  console.log("err+++++", error);
+                });
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch(error => {
+            console.log("err+++++", error);
+          });
+      }
     }
   },
   mounted: function() {

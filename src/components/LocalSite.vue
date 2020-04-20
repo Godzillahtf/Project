@@ -149,6 +149,10 @@ export default {
         });
     },
     changeMessage: function() {
+      if (this.defined.auth.localConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: this.defined.serviceURL + "/updateLocalConfig",
         method: "post",
