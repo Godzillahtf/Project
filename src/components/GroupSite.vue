@@ -119,6 +119,10 @@ export default {
 
   methods: {
     addGroup(data) {
+      if (this.defined.auth.groupConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.dialogFormVisible2 = true;
       this.dataNode = data;
     },
@@ -151,6 +155,10 @@ export default {
         });
     },
     addNode(data) {
+      if (this.defined.auth.groupConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.dialogFormVisible1 = true;
       this.dataNode = data;
     },
@@ -202,6 +210,10 @@ export default {
         });
     },
     remove(node, data) {
+      if (this.defined.auth.groupConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       const parent = node.parent; //父节点
       const children = parent.data.sons; //父节点的所有子节点
       const index = children.findIndex(d => d.id === data.id); //找到data的index
@@ -223,6 +235,10 @@ export default {
       } else console.log("只能删除空分组！");
     },
     deleteNode(node, data) {
+      if (this.defined.auth.groupConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       const parent = node.parent;
       const children = parent.data.sons;
       const index = children.findIndex(d => d.id === data.id);

@@ -29,6 +29,10 @@ export default {
   },
   methods: {
     renewLocalConfig: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: this.defined.serviceURL + "/renewLocalConfig",
         method: "post",
@@ -45,6 +49,10 @@ export default {
         });
     },
     renewAllConfig: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: this.defined.serviceURL + "/renewAllConfig",
         method: "post",

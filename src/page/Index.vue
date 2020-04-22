@@ -40,7 +40,7 @@
             <i class="iconfont icon-tupian"></i>
             <span slot="title">设备抓图</span>
           </el-menu-item>
-          <el-menu-item index="User" v-if="userShow">
+          <el-menu-item index="User" v-show="userShow">
             <i class="iconfont icon-yonghu"></i>
             <span slot="title">账户管理</span>
           </el-menu-item>
@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       componentName: "Live",
-      userShow: this.defined.auth.accountManage === 0 ? false : true
+      userShow: false
     };
   },
   methods: {
@@ -95,7 +95,10 @@ export default {
     },
     created() {}
   },
-  mounted() {}
+  mounted() {
+    this.userShow = this.defined.auth.accountManage === 0 ? false : true;
+    // console.log(this.userShow);
+  }
 };
 </script>
 
@@ -117,6 +120,6 @@ export default {
 <style>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 680px;
+  min-height: 670px;
 }
 </style>

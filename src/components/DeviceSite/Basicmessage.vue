@@ -146,6 +146,10 @@ export default {
         });
     },
     setDeciveName: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: "https://open.ys7.com/api/lapp/device/name/update",
         method: "post",
@@ -169,6 +173,10 @@ export default {
         });
     },
     setDefence: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: "https://open.ys7.com/api/lapp/device/defence/set",
         method: "post",
@@ -192,6 +200,10 @@ export default {
         });
     },
     setSoundMode: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: "https://open.ys7.com/api/lapp/device/alarm/sound/set",
         method: "post",
@@ -215,6 +227,10 @@ export default {
         });
     },
     setOfflineNotify: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: "https://open.ys7.com/api/lapp/device/notify/switch",
         method: "post",
@@ -238,6 +254,10 @@ export default {
         });
     },
     changeMessage: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: this.defined.serviceURL + "/updateBaseConfig",
         method: "post",

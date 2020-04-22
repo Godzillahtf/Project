@@ -271,6 +271,10 @@ export default {
         });
     },
     changeMessage: function() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       this.$axios({
         url: this.defined.serviceURL + "/updateSummerTime",
         method: "post",

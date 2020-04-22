@@ -71,8 +71,8 @@ export default {
                 }
               }).then(res => {
                 this.defined.auth = res.data.auth;
+                this.$router.push({ path: "/index/" + this.username });
               });
-              this.$router.push({ path: "/index/" + this.username });
             } else if (res.data.code == 1) console.log("用户名或密码不正确");
           })
           .catch(error => {

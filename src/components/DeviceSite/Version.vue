@@ -62,6 +62,10 @@ export default {
         });
     },
     upgrade() {
+      if (this.defined.auth.deviceConfig === 0) {
+        console.log("没有配置权限!");
+        return;
+      }
       if (this.formLabelAlign.needRemove === "不需要") {
         console.log("不需要升级！");
         return;
