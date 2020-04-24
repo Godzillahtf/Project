@@ -34,11 +34,25 @@
       "unicode_decimal": 58980
     },
     {
+      "icon_id": "1667297",
+      "name": "坐标",
+      "font_class": "zuobiao",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
       "icon_id": "2678613",
       "name": "警报",
       "font_class": "jingbao",
       "unicode": "e651",
       "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "3765320",
+      "name": "坐标",
+      "font_class": "-",
+      "unicode": "e602",
+      "unicode_decimal": 58882
     },
     {
       "icon_id": "4315712",
