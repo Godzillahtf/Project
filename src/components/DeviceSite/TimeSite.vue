@@ -1,11 +1,6 @@
 <template>
   <div id="timeSite">
-    <el-form
-      label-position="left"
-      label-width="120px"
-      size="mini"
-      :model="formLabelAlign"
-    >
+    <el-form label-position="left" label-width="120px" size="mini" :model="formLabelAlign">
       <el-form-item label="时区">
         <el-select v-model="formLabelAlign.timeZone" placeholder="请选择">
           <el-option
@@ -58,7 +53,7 @@
         </el-form-item>
       </el-form>
       <el-form-item style="text-align:right">
-        <el-button type="primary">保存</el-button>
+        <el-button type="primary" @click="changeMessage">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -77,7 +72,10 @@ export default {
         NTPPort: "123",
         interval: "1440"
       },
-      formLabelAlignManual: {},
+      formLabelAlignManual: {
+        equipmentTime: "",
+        siteTime: ""
+      },
       options: [
         {
           value: "-12",
@@ -218,10 +216,24 @@ export default {
       ]
     };
   },
+  methods: {
+    changeMessage: function() {
+      this.formLabelAlignManual.equipmentTime = this.formLabelAlignManual.siteTime;
+      this.$message({
+        message: "保存成功",
+        type: "success",
+        duration: 1000
+      });
+    }
+  },
   computed: {
     isNTP: function() {
       return this.formLabelAlign.radio == "NTP校时" ? true : false;
     }
+  },
+  mounted: function() {
+    var d = new Date();
+    this.formLabelAlignManual.equipmentTime = d;
   }
 };
 </script>

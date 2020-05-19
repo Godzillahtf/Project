@@ -1,9 +1,13 @@
 export default {
+  SecretId: "",
+  SecretKey: "",
   accessToken: "",
   deviceSerial: "E12366153",
   validateCode: "AFNEVA",
   userName: "",
   userId: "",
+  sonId: "",
+  userMail: "",
   userOnline: false,
   auth: {
     localConfig: 0,

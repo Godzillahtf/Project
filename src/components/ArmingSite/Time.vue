@@ -117,17 +117,27 @@ export default {
               res.data.data.stopTime
             );
           } else {
-            console.log(res.data.msg);
+            // console.log(res.data.msg);
             this.value = false;
           }
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     },
     changeValue: function() {
       if (this.defined.auth.defenceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         this.value = !this.value;
         return;
       }
@@ -150,16 +160,38 @@ export default {
           .then(res => {
             if (res.data.code != "200") {
               this.value = !this.value;
-              console.log(res.data.msg);
+              // console.log(res.data.msg);
+              this.$message({
+                message: res.data.msg,
+                type: "warning",
+                duration: 1000
+              });
             } else {
-              console.log("更改成功！");
+              // console.log("更改成功！");
+              this.$message({
+                message: "更改成功",
+                type: "success",
+                duration: 1000
+              });
             }
           })
           .catch(error => {
-            console.log("err+++++", error.data);
+            // console.log("err+++++", error.data);
+            this.$message({
+              message: "系统错误",
+              type: "error",
+              duration: 1000
+            });
             this.value = !this.value;
           });
-      } else console.log("结束时间不能小于等于开始时间！");
+      }
+      //  console.log("结束时间不能小于等于开始时间！");
+      else
+        this.$message({
+          message: "结束时间不能小于等于开始时间",
+          type: "warning",
+          duration: 1000
+        });
     }
   },
   mounted: function() {

@@ -3,7 +3,13 @@
     <Header></Header>
     <el-row class="tac">
       <el-col :span="6">
-        <el-menu class="el-menu-vertical-demo" @select="changePage">
+        <el-menu
+          class="el-menu-vertical-demo"
+          @select="changePage"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+        >
           <el-menu-item index="Live">
             <i class="iconfont icon-shexiangtou"></i>
             <span slot="title">实时预览</span>
@@ -91,7 +97,7 @@ export default {
   methods: {
     changePage: function(index, indexPath) {
       this.componentName = index;
-      console.log(this.componentName);
+      // console.log(this.componentName);
     },
     created() {}
   },

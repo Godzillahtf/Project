@@ -5,11 +5,23 @@
       <h1>智能监控系统</h1>
       <div class="username-div">
         <label class="iconfont icon-yonghu" for="username-input"></label>
-        <input type="text" id="username-input" v-model="username" placeholder="用户名" />
+        <input
+          type="text"
+          id="username-input"
+          v-model="username"
+          placeholder="用户名"
+          autocomplete="off"
+        />
       </div>
       <div class="password-div">
         <label class="iconfont icon-mima" for="password-input"></label>
-        <input type="password" id="password-input" v-model="password" placeholder="密码" />
+        <input
+          type="password"
+          id="password-input"
+          v-model="password"
+          placeholder="密码"
+          autocomplete="off"
+        />
         <a
           v-bind:class="{'iconfont icon-biyan':isPassword,'iconfont icon-jurassic_openeyes':!isPassword}"
           @click="showPassword"
@@ -44,9 +56,19 @@ export default {
     login: function() {
       // this.$router.push({ path: "/index/admin" });
       if (this.username == "") {
-        this.message = "用户名不能为空！";
+        // this.message = "用户名不能为空！";
+        this.$message({
+          message: "用户名不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.password == "") {
-        this.message = "密码不能为空";
+        // this.message = "密码不能为空";
+        this.$message({
+          message: "密码不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else {
         this.$axios({
           url: this.defined.serviceURL + "/login",
@@ -58,25 +80,48 @@ export default {
         })
           .then(res => {
             if (res.data.code == 0) {
-              console.log("登录成功");
-              this.defined.userId = res.data.userId;
+              let id = res.data.userId;
+              // console.log("登录成功");
+              this.$message({
+                message: "登录成功！",
+                type: "success",
+                duration: 1000
+              });
+              if (res.data.parentId === 0) {
+                this.defined.userId = res.data.userId;
+                this.defined.sonId = res.data.userId;
+              } else {
+                this.defined.userId = res.data.parentId;
+                this.defined.sonId = res.data.userId;
+              }
               this.defined.accessToken = res.data.accessToken;
               this.defined.userName = this.username;
+              this.defined.userMail = res.data.mailAddress;
               this.defined.userOnline = true;
               this.$axios({
                 url: this.defined.serviceURL + "/getAuth",
                 method: "post",
                 data: {
-                  userId: this.defined.userId
+                  userId: id
                 }
               }).then(res => {
                 this.defined.auth = res.data.auth;
                 this.$router.push({ path: "/index/" + this.username });
               });
-            } else if (res.data.code == 1) console.log("用户名或密码不正确");
+            } else if (res.data.code == 1)
+              // console.log("用户名或密码不正确");
+              this.$message({
+                message: "用户名或密码错误！",
+                type: "warning",
+                duration: 1000
+              });
           })
           .catch(error => {
-            console.log("err+++++", error);
+            this.$message({
+              message: "系统错误！",
+              type: "error",
+              duration: 1000
+            });
           });
       }
     },
@@ -178,5 +223,6 @@ export default {
   width: 100%;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
 }
 </style>

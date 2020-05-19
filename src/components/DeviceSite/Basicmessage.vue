@@ -138,16 +138,26 @@ export default {
             this.formLabelAlign.offlineNotify = res.data.data.offlineNotify;
             this.formLabelAlign.category = res.data.data.category;
           } else {
-            console.log(res.data.msg);
+            // console.log(res.data.msg);
           }
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     },
     setDeciveName: function() {
       if (this.defined.auth.deviceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.$axios({
@@ -174,7 +184,12 @@ export default {
     },
     setDefence: function() {
       if (this.defined.auth.deviceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.$axios({
@@ -201,7 +216,12 @@ export default {
     },
     setSoundMode: function() {
       if (this.defined.auth.deviceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.$axios({
@@ -228,7 +248,12 @@ export default {
     },
     setOfflineNotify: function() {
       if (this.defined.auth.deviceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.$axios({
@@ -255,7 +280,12 @@ export default {
     },
     changeMessage: function() {
       if (this.defined.auth.deviceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.$axios({
@@ -276,11 +306,28 @@ export default {
       })
         .then(res => {
           if (res.data.code == 0) {
-            console.log("保存成功");
-          } else console.log("保存失败！");
+            // console.log("保存成功");
+            this.$message({
+              message: "保存成功",
+              type: "success",
+              duration: 1000
+            });
+          }
+          // console.log("保存失败！");
+          else
+            this.$message({
+              message: "保存失败",
+              type: "warning",
+              duration: 1000
+            });
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "warning",
+            duration: 1000
+          });
         });
     }
   },

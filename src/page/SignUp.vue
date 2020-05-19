@@ -5,11 +5,23 @@
       <h1>智能监控系统</h1>
       <div class="username-div">
         <label class="iconfont icon-yonghu" for="username-input"></label>
-        <input type="text" id="username-input" v-model="username" placeholder="用户名" />
+        <input
+          type="text"
+          id="username-input"
+          v-model="username"
+          placeholder="用户名"
+          autocomplete="off"
+        />
       </div>
       <div class="password-div">
         <label class="iconfont icon-mima" for="password-input1"></label>
-        <input type="password" id="password-input1" v-model="password1" placeholder="密码" />
+        <input
+          type="password"
+          id="password-input1"
+          v-model="password1"
+          placeholder="密码"
+          autocomplete="off"
+        />
         <a
           v-bind:class="{'iconfont icon-biyan':isPassword1,'iconfont icon-jurassic_openeyes':!isPassword1}"
           @click="showPassword1"
@@ -17,7 +29,13 @@
       </div>
       <div class="password-div">
         <label class="iconfont icon-mima" for="password-input2"></label>
-        <input type="password" id="password-input2" v-model="password2" placeholder="再次输入密码" />
+        <input
+          type="password"
+          id="password-input2"
+          v-model="password2"
+          placeholder="再次输入密码"
+          autocomplete="off"
+        />
         <a
           v-bind:class="{'iconfont icon-biyan':isPassword2,'iconfont icon-jurassic_openeyes':!isPassword2}"
           @click="showPassword2"
@@ -25,11 +43,23 @@
       </div>
       <div class="username-div">
         <label class="iconfont icon-yanzhengma54" for="captcha-input"></label>
-        <input type="text" id="captcha-input" v-model="captcha" placeholder="验证码" />
+        <input
+          type="text"
+          id="captcha-input"
+          v-model="captcha"
+          placeholder="验证码"
+          autocomplete="off"
+        />
       </div>
       <div class="username-div">
         <label class="iconfont icon-yanzhengma54" for="captcha-input"></label>
-        <input type="text" id="captcha-input" v-model="accessToken" placeholder="用户Token" />
+        <input
+          type="text"
+          id="captcha-input"
+          v-model="accessToken"
+          placeholder="用户Token"
+          autocomplete="off"
+        />
       </div>
       <div class="loginbtn">
         <input type="button" value="注册" @click="signUp" />
@@ -61,15 +91,40 @@ export default {
   methods: {
     signUp: function() {
       if (this.username == "") {
-        this.message = "用户名不能为空！";
+        // this.message = "用户名不能为空！";
+        this.$message({
+          message: "用户名不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.password == "") {
-        this.message = "密码不能为空";
+        // this.message = "密码不能为空";
+        this.$message({
+          message: "密码不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.captcha == "") {
-        this.message = "验证码不能为空";
+        // this.message = "验证码不能为空";
+        this.$message({
+          message: "验证码不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.accessToken == "") {
-        this.message = "请去萤石官网获取用户Token";
+        // this.message = "请去萤石官网获取用户Token";
+        this.$message({
+          message: "请去萤石官网获取Token！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.password1 !== this.password2) {
-        this.message = "两次输入密码不一致";
+        // this.message = "两次输入密码不一致";
+        this.$message({
+          message: "两次输入密码不一致！",
+          type: "warning",
+          duration: 1000
+        });
       } else {
         this.$axios({
           url: this.defined.serviceURL + "/register",
@@ -84,13 +139,35 @@ export default {
         })
           .then(res => {
             if (res.data.code == 0) {
-              console.log("注册成功");
+              // console.log("注册成功");
+              this.$message({
+                message: "注册成功！",
+                type: "success",
+                duration: 1000
+              });
               this.$router.push({ path: "/" });
-            } else if (res.data.code == 1) console.log("两次密码不一致");
-            else if (res.data.code == 2) console.log("已经存在的用户名");
+            } else if (res.data.code == 1)
+              // console.log("两次密码不一致");
+              this.$message({
+                message: "两次密码不一致！",
+                type: "error",
+                duration: 1000
+              });
+            else if (res.data.code == 2)
+              //  console.log("已经存在的用户名");
+              this.$message({
+                message: "已经存在的用户名！",
+                type: "error",
+                duration: 1000
+              });
           })
           .catch(error => {
-            console.log("err+++++", error);
+            // console.log("err+++++", error);
+            this.$message({
+              message: "系统错误！",
+              type: "error",
+              duration: 1000
+            });
           });
       }
     },

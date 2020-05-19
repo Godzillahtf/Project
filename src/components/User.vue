@@ -138,7 +138,12 @@ export default {
           );
         })
         .catch(error => {
-          console.log("err++", error);
+          // console.log("err++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
       this.dialogFormVisible1 = true;
     },
@@ -151,11 +156,21 @@ export default {
         }
       })
         .then(res => {
-          console.log("删除成功！");
+          // console.log("删除成功！");
+          this.$message({
+            message: "删除成功！",
+            type: "success",
+            duration: 1000
+          });
           data.splice(index, 1);
         })
         .catch(error => {
-          console.log("err++", error);
+          // console.log("err++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     },
     changeAuth() {
@@ -178,10 +193,20 @@ export default {
         }
       })
         .then(res => {
-          console.log("修改成功！");
+          // console.log("修改成功！");
+          this.$message({
+            message: "修改成功",
+            type: "success",
+            duration: 1000
+          });
         })
         .catch(error => {
-          console.log("err++", error);
+          // console.log("err++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
       this.dialogFormVisible1 = false;
     },
@@ -197,7 +222,12 @@ export default {
           this.tableData = res.data.sons;
         })
         .catch(error => {
-          console.log("err++", error);
+          // console.log("err++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     },
     showAuth: function(auth) {
@@ -211,54 +241,95 @@ export default {
       return authArray;
     },
     addNewUser: function() {
-      this.$axios({
-        url: this.defined.serviceURL + "/registerSon",
-        method: "post",
-        data: {
-          userId: this.defined.userId,
-          userName: this.addUserForm.username,
-          password: this.addUserForm.password,
-          accessToken: this.defined.accessToken,
-          authCode: this.addUserForm.validateCode
-        }
-      })
-        .then(res => {
-          if (res.data.code == 0) {
-            this.$axios({
-              url: this.defined.serviceURL + "/updateAuth",
-              method: "post",
-              data: {
-                userId: res.data.userId,
-                localConfig:
-                  this.addUserForm.userAuthority.indexOf("1") > -1 ? 1 : 0,
-                systemConfig:
-                  this.addUserForm.userAuthority.indexOf("2") > -1 ? 1 : 0,
-                defenceConfig:
-                  this.addUserForm.userAuthority.indexOf("3") > -1 ? 1 : 0,
-                deviceConfig:
-                  this.addUserForm.userAuthority.indexOf("4") > -1 ? 1 : 0,
-                groupConfig:
-                  this.addUserForm.userAuthority.indexOf("5") > -1 ? 1 : 0,
-                mapConfig:
-                  this.addUserForm.userAuthority.indexOf("6") > -1 ? 1 : 0
-              }
-            })
-              .then(res1 => {
-                console.log("添加用户 权限成功");
-                this.tableData.push({
-                  userId: res.data.userId,
-                  userName: this.addUserForm.username
-                });
-                this.dialogFormVisible2 = false;
-              })
-              .catch(error => {
-                console.log("err++", error);
-              });
-          } else if (res.code == 1) console.log("用户名重复");
-        })
-        .catch(error => {
-          console.log("err++", error);
+      if (this.addUserForm.username === "") {
+        this.$message({
+          message: "用户名不能为空",
+          type: "warning",
+          duration: 1000
         });
+      } else if (this.addUserForm.password === "") {
+        this.$message({
+          message: "密码不能为空",
+          type: "warning",
+          duration: 1000
+        });
+      } else if (this.addUserForm.validateCode === "") {
+        this.$message({
+          message: "验证码不能为空",
+          type: "warning",
+          duration: 1000
+        });
+      } else {
+        this.$axios({
+          url: this.defined.serviceURL + "/registerSon",
+          method: "post",
+          data: {
+            userId: this.defined.userId,
+            userName: this.addUserForm.username,
+            password: this.addUserForm.password,
+            accessToken: this.defined.accessToken,
+            authCode: this.addUserForm.validateCode
+          }
+        })
+          .then(res => {
+            if (res.data.code == 0) {
+              this.$axios({
+                url: this.defined.serviceURL + "/updateAuth",
+                method: "post",
+                data: {
+                  userId: res.data.userId,
+                  localConfig:
+                    this.addUserForm.userAuthority.indexOf("1") > -1 ? 1 : 0,
+                  systemConfig:
+                    this.addUserForm.userAuthority.indexOf("2") > -1 ? 1 : 0,
+                  defenceConfig:
+                    this.addUserForm.userAuthority.indexOf("3") > -1 ? 1 : 0,
+                  deviceConfig:
+                    this.addUserForm.userAuthority.indexOf("4") > -1 ? 1 : 0,
+                  groupConfig:
+                    this.addUserForm.userAuthority.indexOf("5") > -1 ? 1 : 0,
+                  mapConfig:
+                    this.addUserForm.userAuthority.indexOf("6") > -1 ? 1 : 0
+                }
+              })
+                .then(res1 => {
+                  // console.log("添加用户 权限成功");
+                  this.$message({
+                    message: "添加用户成功",
+                    type: "success",
+                    duration: 1000
+                  });
+                  this.tableData.push({
+                    userId: res.data.userId,
+                    userName: this.addUserForm.username
+                  });
+                  this.dialogFormVisible2 = false;
+                })
+                .catch(error => {
+                  // console.log("err++", error);
+                  this.$message({
+                    message: "系统错误",
+                    type: "error",
+                    duration: 1000
+                  });
+                });
+            } else if (res.code == 1)
+              // console.log("用户名重复");
+              this.$message({
+                message: "用户名重复",
+                type: "warning",
+                duration: 1000
+              });
+          })
+          .catch(error => {
+            // console.log("err++", error);
+            this.$message({
+              message: "系统错误",
+              type: "error",
+              duration: 1000
+            });
+          });
+      }
     },
     reFreshPage: function() {
       this.$forceUpdate();

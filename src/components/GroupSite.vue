@@ -27,7 +27,7 @@
     <el-dialog title="分组信息" :visible.sync="dialogFormVisible2" :append-to-body="true">
       <el-form :model="groupForm" label-position="left" label-width="100px">
         <el-form-item label="分组名称">
-          <el-input v-model="deviceForm.groupName" auto-complete="off"></el-input>
+          <el-input v-model="groupForm.groupName" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -56,63 +56,63 @@ export default {
       dialogFormVisible1: false,
       dialogFormVisible2: false,
       data: [
-        {
-          id: 4,
-          userId: 1,
-          nodeType: 0,
-          nodeLevel: 1,
-          parentId: 3,
-          nodeName: "device-1",
-          deviceSerial: "blablaxx-1",
-          canDelete: 0,
-          sons: [
-            {
-              id: 6,
-              userId: 1,
-              nodeType: 1,
-              nodeLevel: 2,
-              parentId: 4,
-              nodeName: "node-1-1-1",
-              deviceSerial: "blablaxxx",
-              canDelete: 1,
-              sons: []
-            },
-            {
-              id: 7,
-              userId: 1,
-              nodeType: 0,
-              nodeLevel: 2,
-              parentId: 4,
-              nodeName: "node-1-1-2",
-              deviceSerial: "",
-              canDelete: 0,
-              sons: [
-                {
-                  id: 8,
-                  userId: 1,
-                  nodeType: 0,
-                  nodeLevel: 3,
-                  parentId: 7,
-                  nodeName: "node-1-1-2-1",
-                  deviceSerial: "",
-                  canDelete: 1,
-                  sons: []
-                },
-                {
-                  id: 9,
-                  userId: 1,
-                  nodeType: 1,
-                  nodeLevel: 3,
-                  parentId: 7,
-                  nodeName: "node-1-1-2-2",
-                  deviceSerial: "blablaxxxx",
-                  canDelete: 1,
-                  sons: []
-                }
-              ]
-            }
-          ]
-        }
+        // {
+        // id: 1,
+        // userId: 1,
+        // nodeType: 0,
+        // nodeLevel: 1,
+        // parentId: 3,
+        // nodeName: "device-1",
+        // deviceSerial: "blablaxx-1",
+        // canDelete: 0,
+        // sons: [
+        //     {
+        //       id: 6,
+        //       userId: 1,
+        //       nodeType: 1,
+        //       nodeLevel: 2,
+        //       parentId: 4,
+        //       nodeName: "node-1-1-1",
+        //       deviceSerial: "blablaxxx",
+        //       canDelete: 1,
+        //       sons: []
+        //     },
+        //     {
+        //       id: 7,
+        //       userId: 1,
+        //       nodeType: 0,
+        //       nodeLevel: 2,
+        //       parentId: 4,
+        //       nodeName: "node-1-1-2",
+        //       deviceSerial: "",
+        //       canDelete: 0,
+        //       sons: [
+        //         {
+        //           id: 8,
+        //           userId: 1,
+        //           nodeType: 0,
+        //           nodeLevel: 3,
+        //           parentId: 7,
+        //           nodeName: "node-1-1-2-1",
+        //           deviceSerial: "",
+        //           canDelete: 1,
+        //           sons: []
+        //         },
+        //         {
+        //           id: 9,
+        //           userId: 1,
+        //           nodeType: 1,
+        //           nodeLevel: 3,
+        //           parentId: 7,
+        //           nodeName: "node-1-1-2-2",
+        //           deviceSerial: "blablaxxxx",
+        //           canDelete: 1,
+        //           sons: []
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // }
       ]
     };
   },
@@ -120,14 +120,19 @@ export default {
   methods: {
     addGroup(data) {
       if (this.defined.auth.groupConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.dialogFormVisible2 = true;
       this.dataNode = data;
     },
     appendGroup(data) {
-      const newChild = {
+      let newChild = {
         id: id++,
         nodeName: this.groupForm.groupName,
         userId: this.defined.userId,
@@ -136,88 +141,168 @@ export default {
         deviceSerial: "",
         sons: []
       };
-      this.$axios({
-        url: this.defined.serviceURL + "/addGroup",
-        method: "post",
-        data: {
-          id: newChild.parentId,
-          nodeType: newChild.nodeType,
-          nodeName: newChild.nodeName,
-          deviceSerial: newChild.deviceSerial
-        }
-      })
-        .then(res => {
-          this.data = res.data.node.sons;
-          this.dialogFormVisible2 = false;
-        })
-        .catch(error => {
-          console.log("err++", error);
+      // console.log(this.groupForm);
+      if (this.groupForm.groupName === "")
+        this.$message({
+          message: "分组名不能为空！",
+          type: "warning",
+          duration: 1000
         });
+      else {
+        this.$axios({
+          url: this.defined.serviceURL + "/addGroup",
+          method: "post",
+          data: {
+            id: newChild.parentId,
+            nodeType: newChild.nodeType,
+            nodeName: newChild.nodeName,
+            deviceSerial: newChild.deviceSerial
+          }
+        })
+          .then(res => {
+            this.data = res.data.node;
+            // console.log(res.data.node);
+            this.dialogFormVisible2 = false;
+            this.$message({
+              message: "添加成功！",
+              type: "success",
+              duration: 1000
+            });
+          })
+          .catch(error => {
+            // console.log("err++", error);
+            this.$message({
+              message: "系统错误！",
+              type: "error",
+              duration: 1000
+            });
+          });
+      }
     },
     addNode(data) {
       if (this.defined.auth.groupConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.dialogFormVisible1 = true;
       this.dataNode = data;
     },
     appendNode() {
-      this.$axios({
-        url: "https://open.ys7.com/api/lapp/device/info",
-        method: "post",
-        params: {
-          accessToken: this.defined.accessToken,
-          deviceSerial: this.deviceForm.deviceSerial
-        }
-      })
-        .then(res => {
-          if (res.data.code == "200") {
-            if (this.deviceForm.deviceName === res.data.data.deviceName) {
-              const newChild = {
-                id: id++,
-                nodeName: this.deviceForm.deviceName,
-                userId: this.defined.userId,
-                nodeType: 1,
-                parentId: this.dataNode.id,
-                deviceSerial: this.deviceForm.deviceSerial,
-                sons: []
-              };
-              this.$axios({
-                url: this.defined.serviceURL + "/addGroup",
-                method: "post",
-                data: {
-                  id: newChild.parentId,
-                  nodeType: newChild.nodeType,
-                  nodeName: newChild.nodeName,
-                  deviceSerial: newChild.deviceSerial
-                }
-              })
-                .then(res => {
-                  this.data = res.data.node.sons;
-                  this.dialogFormVisible1 = false;
-                })
-                .catch(error => {
-                  console.log("err++", error);
-                });
-            } else console.log("设备名和序列号不对应");
-          } else {
-            console.log(res.data.msg);
+      if (this.deviceForm.deviceSerial === "") {
+        this.$message({
+          message: "设备序列号不能为空",
+          type: "warning",
+          duration: 1000
+        });
+      } else if (this.deviceForm.deviceName === "") {
+        this.$message({
+          message: "设备名不能为空",
+          type: "warning",
+          duration: 1000
+        });
+      } else {
+        this.$axios({
+          url: "https://open.ys7.com/api/lapp/device/info",
+          method: "post",
+          params: {
+            accessToken: this.defined.accessToken,
+            deviceSerial: this.deviceForm.deviceSerial
           }
         })
-        .catch(error => {
-          console.log("err+++++", error);
-        });
+          .then(res => {
+            if (res.data.code == "200") {
+              if (this.deviceForm.deviceName === res.data.data.deviceName) {
+                let newChild = {
+                  id: id++,
+                  nodeName: this.deviceForm.deviceName,
+                  userId: this.defined.userId,
+                  nodeType: 1,
+                  parentId: this.dataNode.id,
+                  deviceSerial: this.deviceForm.deviceSerial,
+                  sons: []
+                };
+                this.$axios({
+                  url: this.defined.serviceURL + "/addGroup",
+                  method: "post",
+                  data: {
+                    id: newChild.parentId,
+                    nodeType: newChild.nodeType,
+                    nodeName: newChild.nodeName,
+                    deviceSerial: newChild.deviceSerial
+                  }
+                })
+                  .then(res => {
+                    this.data = res.data.node;
+                    this.dialogFormVisible1 = false;
+                    this.$message({
+                      message: "添加成功！",
+                      type: "success",
+                      duration: 1000
+                    });
+                  })
+                  .catch(error => {
+                    // console.log("err++", error);
+                    this.$message({
+                      message: "系统错误！",
+                      type: "error",
+                      duration: 1000
+                    });
+                  });
+              }
+              // console.log("设备名和序列号不对应");
+              else
+                this.$message({
+                  message: "设备名和序列号不对应！",
+                  type: "warning",
+                  duration: 1000
+                });
+            } else {
+              // console.log(res.data.msg);
+              this.$message({
+                message: res.data.msg,
+                type: "error",
+                duration: 1000
+              });
+            }
+          })
+          .catch(error => {
+            // console.log("err+++++", error);
+            this.$message({
+              message: "系统错误",
+              type: "error",
+              duration: 1000
+            });
+          });
+      }
     },
     remove(node, data) {
       if (this.defined.auth.groupConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限！",
+          type: "warning",
+          duration: 1000
+        });
+        return;
+      }
+      if (data.parentId === 0) {
+        // console.log("根节点不能删除");
+        this.$message({
+          message: "根节点不能删除！",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       const parent = node.parent; //父节点
       const children = parent.data.sons; //父节点的所有子节点
       const index = children.findIndex(d => d.id === data.id); //找到data的index
-      if (data.sons.length === 0) {
+      if (data.canDelete === 1) {
         this.$axios({
           url: this.defined.serviceURL + "/deleteLeafGroup",
           method: "post",
@@ -226,17 +311,48 @@ export default {
           }
         })
           .then(res => {
-            if (res === 0) children.splice(index, 1);
-            else console.log("未找到分组");
+            if (res.data.code === 0) {
+              children.splice(index, 1);
+              this.$message({
+                message: "删除成功",
+                type: "success",
+                duration: 1000
+              });
+            }
+
+            // console.log("未找到分组");
+            else
+              this.$message({
+                message: "未找到分组",
+                type: "warning",
+                duration: 1000
+              });
           })
           .catch(error => {
-            console.log("err++", error);
+            // console.log("err++", error);
+            this.$message({
+              message: "系统错误",
+              type: "error",
+              duration: 1000
+            });
           });
-      } else console.log("只能删除空分组！");
+      }
+      // console.log("只能删除空分组！");
+      else
+        this.$message({
+          message: "只能删除空分组",
+          type: "warning",
+          duration: 1000
+        });
     },
     deleteNode(node, data) {
       if (this.defined.auth.groupConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限！",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       const parent = node.parent;
@@ -250,11 +366,29 @@ export default {
         }
       })
         .then(res => {
-          if (res === 0) children.splice(index, 1);
-          else console.log("未找到节点");
+          if (res.data.code === 0) {
+            children.splice(index, 1);
+            this.$message({
+              message: "删除成功",
+              type: "success",
+              duration: 1000
+            });
+          }
+          //  console.log("未找到节点");
+          else
+            this.$message({
+              message: "未找到节点",
+              type: "warning",
+              duration: 1000
+            });
         })
         .catch(error => {
-          console.log("err++", error);
+          // console.log("err++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     },
     renderContent(h, { node, data, store }) {
@@ -312,15 +446,21 @@ export default {
         }
       })
         .then(res => {
-          this.data = res.data.node.sons;
+          // console.log(res.data);
+          this.data = res.data.node;
         })
         .catch(error => {
-          console.log("err++", error);
+          // console.log("err++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     }
   },
   mounted: function() {
-    // this.showMessage();
+    this.showMessage();
   }
 };
 </script>

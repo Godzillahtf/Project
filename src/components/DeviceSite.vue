@@ -16,7 +16,7 @@
       <el-tab-pane label="时间校验" name="fifth">
         <TimeSite />
       </el-tab-pane>
-      <el-tab-pane label="夏时令" name="sixth">
+      <el-tab-pane label="夏令时" name="sixth">
         <XiaShiLing />
       </el-tab-pane>
       <el-tab-pane label="设备恢复" name="seventh">

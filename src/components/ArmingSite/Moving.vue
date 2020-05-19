@@ -3,14 +3,14 @@
     <el-slider v-model="value" :min="0" :max="6" show-input style="width:90%;margin-left:20px;"></el-slider>
     <div class="message">
       <div class="left">
-        <i class="el-icon-s-help" v-bind:style="{ fontSize: value*100/6+30 + 'px' }"></i>
+        <i class="el-icon-s-help" v-bind:style="{ fontSize: (6-value)*100/6+30 + 'px' }"></i>
       </div>
       <div class="right">
         <h3>灵敏度说明：</h3>
-        <p>当检测到圆形大小以上的物体，会报警，值越大越灵敏</p>
+        <p>当检测到圆形大小以上的物体，会报警，值越大越灵敏，值为0时关闭移动侦测</p>
       </div>
     </div>
-    <el-button type="primary" @click="changeValue">保存</el-button>
+    <el-button type="primary" @click="changeValue" size="mini">保存</el-button>
   </div>
 </template>
 <script>
@@ -37,17 +37,27 @@ export default {
             this.value = Number(res.data.data[0].value);
             this.value1 = Number(res.data.data[0].value);
           } else {
-            console.log(res.data.msg);
+            // console.log(res.data.msg);
             this.value = 0;
           }
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     },
     changeValue: function() {
       if (this.defined.auth.defenceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.$axios({
@@ -62,13 +72,28 @@ export default {
         .then(res => {
           if (res.data.code != "200") {
             this.value = this.value1;
-            console.log(res.data.msg);
+            // console.log(res.data.msg);
+            this.$message({
+              message: res.data.msg,
+              type: "warning",
+              duration: 1000
+            });
           } else {
-            console.log("更改成功！");
+            // console.log("更改成功！");
+            this.$message({
+              message: "更改成功",
+              type: "success",
+              duration: 1000
+            });
           }
         })
         .catch(error => {
-          console.log("err+++++", error.data);
+          // console.log("err+++++", error.data);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
           this.value = this.value1;
         });
     }

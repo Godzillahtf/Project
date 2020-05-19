@@ -49,12 +49,22 @@ export default {
           this.proofId = res.data.config.id;
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     },
     changeMessage: function() {
       if (this.defined.auth.systemConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       this.$axios({
@@ -68,11 +78,28 @@ export default {
         }
       })
         .then(res => {
-          if (res.data.code == 0) console.log("保存成功");
-          else console.log("保存失败！");
+          if (res.data.code == 0)
+            // console.log("保存成功");
+            this.$message({
+              message: "保存成功",
+              type: "success",
+              duration: 1000
+            });
+          // console.log("保存失败！");
+          else
+            this.$message({
+              message: "保存失败",
+              type: "warning",
+              duration: 1000
+            });
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     }
   },

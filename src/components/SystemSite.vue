@@ -10,10 +10,10 @@
       <el-tab-pane label="验证方法" name="third">
         <VerificationMethod />
       </el-tab-pane>
-      <!-- <el-tab-pane label="在线用户" name="fourth">
+      <el-tab-pane label="报警查询" name="fourth">
         <UserOnline />
-      </el-tab-pane>-->
-      <el-tab-pane label="设备" name="fourth">
+      </el-tab-pane>
+      <el-tab-pane label="设备" name="fifth">
         <Equipment />
       </el-tab-pane>
     </el-tabs>
@@ -23,7 +23,7 @@
 import Rs232 from "../components/SystemSite/RS-232";
 import SafetyService from "../components/SystemSite/SafetyService";
 import VerificationMethod from "../components/SystemSite/VerificationMethod";
-// import UserOnline from "../components/SystemSite/UserOnline";
+import UserOnline from "../components/SystemSite/UserOnline";
 import Equipment from "../components/SystemSite/Equipment";
 
 export default {
@@ -32,7 +32,7 @@ export default {
     Rs232,
     SafetyService,
     VerificationMethod,
-    // UserOnline,
+    UserOnline,
     Equipment
   },
   data() {

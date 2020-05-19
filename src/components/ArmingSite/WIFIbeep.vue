@@ -36,18 +36,28 @@ export default {
             // console.log(res.data.data.enable);
             this.value = res.data.data.enable == 1 ? true : false;
           } else {
-            console.log(res.data.msg);
+            // console.log(res.data.msg);
             this.value = false;
           }
         })
         .catch(error => {
-          console.log("err+++++", err);
+          // console.log("err+++++", err);
+          this.$message({
+            message: "系统错误",
+            type: "warning",
+            duration: 1000
+          });
         });
     },
     changeValue: function() {
       var value1 = this.value ? 1 : 0;
       if (this.defined.auth.defenceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         this.value = !this.value;
         return;
       }
@@ -62,14 +72,29 @@ export default {
       })
         .then(res => {
           if (res.data.code != "200") {
-            console.log(res.data.msg);
+            // console.log(res.data.msg);
+            this.$message({
+              message: res.data.msg,
+              type: "warning",
+              duration: 1000
+            });
             this.value = !this.value;
           } else {
-            console.log("更改成功！");
+            // console.log("更改成功！");
+            this.$message({
+              message: "更改成功",
+              type: "success",
+              duration: 1000
+            });
           }
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
           this.value = !this.value;
         });
     }

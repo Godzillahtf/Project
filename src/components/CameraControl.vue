@@ -150,14 +150,29 @@ export default {
         })
           .then(res => {
             if (res.data.code == "200") {
-              console.log("操作成功");
+              // console.log("操作成功");
+              this.$message({
+                message: "操作成功！",
+                type: "success",
+                duration: 1000
+              });
               this.isStart = !this.isStart;
             } else {
-              console.log(res.data.msg);
+              // console.log(res.data.msg);
+              this.$message({
+                message: res.data.msg,
+                type: "error",
+                duration: 1000
+              });
             }
           })
           .catch(error => {
-            console.log("err+++++", error);
+            // console.log("err+++++", error);
+            this.$message({
+              message: "系统错误！",
+              type: "error00000000000000",
+              duration: 1000
+            });
           });
       } else {
         this.$axios({
@@ -171,14 +186,29 @@ export default {
         })
           .then(res => {
             if (res.data.code == "200") {
-              console.log("操作成功");
+              // console.log("操作成功");
+              this.$message({
+                message: "操作成功！",
+                type: "success",
+                duration: 1000
+              });
               this.isStart = !this.isStart;
             } else {
-              console.log(res.data.msg);
+              // console.log(res.data.msg);
+              this.$message({
+                message: res.data.msg,
+                type: "error",
+                duration: 1000
+              });
             }
           })
           .catch(error => {
-            console.log("err+++++", error);
+            // console.log("err+++++", error);
+            this.$message({
+              message: "系统错误",
+              type: "error",
+              duration: 1000
+            });
           });
       }
     },
@@ -195,13 +225,28 @@ export default {
       })
         .then(res => {
           if (res.data.code == "200") {
-            console.log("操作成功");
+            // console.log("操作成功");
+            this.$message({
+              message: "操作成功！",
+              type: "success",
+              duration: 1000
+            });
           } else {
-            console.log(res.data.msg);
+            // console.log(res.data.msg);
+            this.$message({
+              message: res.data.msg,
+              type: "error",
+              duration: 1000
+            });
           }
         })
         .catch(error => {
-          console.log("err+++++", error);
+          // console.log("err+++++", error);
+          this.$message({
+            message: "系统错误",
+            type: "error",
+            duration: 1000
+          });
         });
     }
   }

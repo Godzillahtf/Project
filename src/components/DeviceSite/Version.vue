@@ -63,11 +63,21 @@ export default {
     },
     upgrade() {
       if (this.defined.auth.deviceConfig === 0) {
-        console.log("没有配置权限!");
+        // console.log("没有配置权限!");
+        this.$message({
+          message: "没有配置权限",
+          type: "warning",
+          duration: 1000
+        });
         return;
       }
       if (this.formLabelAlign.needRemove === "不需要") {
-        console.log("不需要升级！");
+        // console.log("不需要升级！");
+        this.$message({
+          message: "已是最新版本,不需要升级",
+          type: "warning",
+          duration: 1000
+        });
         return;
       } else {
         this.$axios({
@@ -93,18 +103,38 @@ export default {
                   if (res.data.code == "200") {
                     this.upGradeForm.progress = res.data.data.progress;
                   } else {
-                    console.log(res.data.msg);
+                    // console.log(res.data.msg);
+                    this.$message({
+                      message: res.data.msg,
+                      type: "warning",
+                      duration: 1000
+                    });
                   }
                 })
                 .catch(error => {
-                  console.log("err+++++", error);
+                  // console.log("err+++++", error);
+                  this.$message({
+                    message: "系统错误",
+                    type: "error",
+                    duration: 1000
+                  });
                 });
             } else {
-              console.log(res.data.msg);
+              // console.log(res.data.msg);
+              this.$message({
+                message: res.data.msg,
+                type: "warning",
+                duration: 1000
+              });
             }
           })
           .catch(error => {
-            console.log("err+++++", error);
+            // console.log("err+++++", error);
+            this.$message({
+              message: "系统错误",
+              type: "error",
+              duration: 1000
+            });
           });
       }
     }

@@ -8,7 +8,32 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    getSchedule() {
+      this.$axios({
+        url: "https://open.ys7.com/api/lapp/device/status/get",
+        method: "post",
+        params: {
+          accessToken: this.defined.accessToken,
+          deviceSerial: this.defined.deviceSerial
+        }
+      })
+        .then(res => {
+          if (res.data.code == "200") {
+          } else {
+            console.log(res.data.msg);
+          }
+        })
+        .catch(error => {
+          console.log("err+++++", error);
+        });
+    },
+    renewSchedule() {
+      window.setInterval(() => {
+        setTimeout(getSchedule, 0);
+      }, 5000);
+    }
+  }
 };
 </script>
 

@@ -5,11 +5,23 @@
       <h1>智能监控系统</h1>
       <div class="username-div">
         <label class="iconfont icon-yonghu" for="username-input"></label>
-        <input type="text" id="username-input" v-model="username" placeholder="用户名" />
+        <input
+          type="text"
+          id="username-input"
+          v-model="username"
+          placeholder="用户名"
+          autocomplete="off"
+        />
       </div>
       <div class="password-div">
         <label class="iconfont icon-mima" for="password-input1"></label>
-        <input type="password" id="password-input1" v-model="password1" placeholder="密码" />
+        <input
+          type="password"
+          id="password-input1"
+          v-model="password1"
+          placeholder="密码"
+          autocomplete="off"
+        />
         <a
           v-bind:class="{'iconfont icon-biyan':isPassword1,'iconfont icon-jurassic_openeyes':!isPassword1}"
           @click="showPassword1"
@@ -17,7 +29,13 @@
       </div>
       <div class="password-div">
         <label class="iconfont icon-mima" for="password-input2"></label>
-        <input type="password" id="password-input2" v-model="password2" placeholder="再次输入密码" />
+        <input
+          type="password"
+          id="password-input2"
+          v-model="password2"
+          placeholder="再次输入密码"
+          autocomplete="off"
+        />
         <a
           v-bind:class="{'iconfont icon-biyan':isPassword2,'iconfont icon-jurassic_openeyes':!isPassword2}"
           @click="showPassword2"
@@ -25,7 +43,13 @@
       </div>
       <div class="username-div">
         <label class="iconfont icon-yanzhengma54" for="captcha-input"></label>
-        <input type="text" id="captcha-input" v-model="captcha" placeholder="验证码" />
+        <input
+          type="text"
+          id="captcha-input"
+          v-model="captcha"
+          placeholder="验证码"
+          autocomplete="off"
+        />
       </div>
       <div class="loginbtn">
         <input type="button" value="重置密码" @click="login" />
@@ -34,7 +58,19 @@
       <router-link to="/">
         <a>知道密码？去登录</a>
       </router-link>
+      <a href="#" @click="dialogFormVisible=true">忘记验证码？邮箱验证</a>
     </div>
+    <el-dialog title="找回验证码" :visible.sync="dialogFormVisible" :append-to-body="true">
+      <el-form :model="userForm" label-position="left" label-width="100px">
+        <el-form-item label="用户名">
+          <el-input v-model="userForm.username" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false" style="height:30px;width:60px">取 消</el-button>
+        <el-button type="primary" @click="sendCaptcha" style="height:30px;width:60px">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -50,19 +86,43 @@ export default {
       captcha: "",
       message: "",
       isPassword1: true,
-      isPassword2: true
+      isPassword2: true,
+      dialogFormVisible: false,
+      userForm: {
+        username: ""
+      }
     };
   },
   methods: {
     login: function() {
       if (this.username == "") {
-        this.message = "用户名不能为空！";
+        // this.message = "用户名不能为空！";
+        this.$message({
+          message: "用户名不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.password1 == "") {
-        this.message = "密码不能为空";
+        // this.message = "密码不能为空";
+        this.$message({
+          message: "密码不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.captcha == "") {
-        this.message = "验证码不能为空";
+        // this.message = "验证码不能为空";
+        this.$message({
+          message: "验证码不能为空！",
+          type: "warning",
+          duration: 1000
+        });
       } else if (this.password1 !== this.password2) {
-        this.message = "两次输入密码不一致";
+        // this.message = "两次输入密码不一致";
+        this.$message({
+          message: "两次输入密码不一致！",
+          type: "warning",
+          duration: 1000
+        });
       } else {
         this.$axios({
           url: this.defined.serviceURL + "/forgetpswd",
@@ -76,12 +136,28 @@ export default {
         })
           .then(res => {
             if (res.data.code == 0) {
-              console.log("修改成功");
+              // console.log("修改成功");
+              this.$message({
+                message: "修改成功！",
+                type: "success",
+                duration: 1000
+              });
               this.$router.push({ path: "/" });
-            } else if (res.data.code == 1) console.log("修改失败");
+            } else if (res.data.code == 1)
+              // console.log("修改失败");
+              this.$message({
+                message: "修改失败！",
+                type: "error",
+                duration: 1000
+              });
           })
           .catch(error => {
-            console.log("err+++++", error);
+            // console.log("err+++++", error);
+            this.$message({
+              message: "系统错误！",
+              type: "error",
+              duration: 1000
+            });
           });
       }
     },
@@ -96,6 +172,49 @@ export default {
       document.getElementById("password-input2").type = this.isPassword2
         ? "password"
         : "text";
+    },
+    sendCaptcha: function() {
+      if (this.userForm.username === "") {
+        this.$message({
+          message: "用户名不能为空",
+          type: "warning",
+          duration: 1000
+        });
+      } else {
+        this.$axios({
+          url: this.defined.serviceURL + "/postAuthCode",
+          method: "post",
+          data: {
+            userName: this.userForm.username
+          }
+        })
+          .then(res => {
+            if (res.data.code == 0) {
+              // console.log("修改成功");
+              this.$message({
+                message: "验证码已经发送到绑定邮箱",
+                type: "success",
+                duration: 1000
+              });
+              this.dialogFormVisible = false;
+            }
+            // console.log("修改失败");
+            else
+              this.$message({
+                message: "邮件发送失败！",
+                type: "error",
+                duration: 1000
+              });
+          })
+          .catch(error => {
+            // console.log("err+++++", error);
+            this.$message({
+              message: "系统错误！",
+              type: "error",
+              duration: 1000
+            });
+          });
+      }
     }
   }
 };
@@ -122,7 +241,7 @@ export default {
 #loginForm {
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.3);
-  height: 400px;
+  height: 430px;
   width: 400px;
   margin: 0px auto;
   box-shadow: 0 0 5px black;
@@ -189,5 +308,6 @@ export default {
   width: 100%;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
 }
 </style>
