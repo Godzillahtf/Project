@@ -451,7 +451,7 @@ export default {
       this.tableData2 = row.marks;
       this.$options.methods.drawMark(this);
     },
-    markClick: function(row) {
+    markClick: function(row, column, event) {
       this.formLabelAlign.markName = row.markName;
       this.formLabelAlign.rowMark = row.rowMark;
       this.formLabelAlign.columnMark = row.columnMark;

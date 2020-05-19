@@ -12,7 +12,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button size="mini" style="margin-top:10px;">刷新</el-button>
+      <el-button size="mini" style="margin-top:10px;" @click="renewMessage">刷新</el-button>
     </el-form>
   </div>
 </template>
@@ -26,18 +26,19 @@ export default {
     };
   },
   methods: {
-    showMessage: function() {
-      this.$axios({
-        url: "https://open.ys7.com/api/lapp/alarm/list",
-        method: "post",
-        params: {
-          accessToken: this.defined.accessToken,
-          startTime: "1457420771029"
-        }
-      })
+    showMessage: function(that) {
+      that
+        .$axios({
+          url: "https://open.ys7.com/api/lapp/alarm/list",
+          method: "post",
+          params: {
+            accessToken: that.defined.accessToken,
+            startTime: "1457420771029"
+          }
+        })
         .then(res => {
           if (res.data.code == "200") {
-            this.tableData = res.data.data;
+            that.tableData = res.data.data;
           } else {
             console.log(res.data.msg);
           }
@@ -70,10 +71,18 @@ export default {
         // 10009:紧急按钮告警
         // 10010:人体感应告警
       }
+    },
+    renewMessage: function() {
+      this.$options.methods.showMessage(this);
+      this.$message({
+        message: "刷新成功",
+        type: "success",
+        duration: 1000
+      });
     }
   },
   mounted: function() {
-    this.showMessage();
+    this.showMessage(this);
   }
 };
 </script>
